@@ -8,7 +8,8 @@ Name: **blocklist**
 
 - Users should be able to make accounts/sign in with google
 - Users should be able to create tasks
-- Users should be able to prioritise tasks
+  - Users should be able to prioritise tasks^[Or we can have it where the
+    task gets bigger and bigger as the deadline approaches.]
 - User should be able to create categories/tags
 - Task should have tags
 - User tasks should be tracked by the backend so that the user can access them
