@@ -11,6 +11,7 @@ Name: ****
 - Difficult to dismiss screen overlay asks for the input of the words and then
   tells you if you got them right or wrong
 - Tells the user the definition if the words are wrong for the next popup
+- User gratification; streak; path (gamification)
 
 ### Extended
 

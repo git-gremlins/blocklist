@@ -43,6 +43,6 @@ Name: **blocklist**
 
 - Prisma implementation
 - tRPC routing and type definitions with `zod`
-- Infinite zoom
+- Tap to zoom
 - Lazy rendering on infinite scroll
   (https://medium.com/swlh/lazy-loading-with-react-native-62cfe03986a4)
