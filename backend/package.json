@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@trpc/client": "^10.21.1",
+    "@trpc/server": "^10.21.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.1",
+    "prisma": "^4.13.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
