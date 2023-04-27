@@ -1,12 +1,6 @@
 {
   "scripts": {
     "dev": "nodemon --legacy-watch ./app.ts",
-    "start": "docker-compose up",
-    "build": "docker-compose build",
-    "stop": "docker-compose down",
-    "clean": "docker system prune -af",
-    "clean:volumes": "docker volume prune -f",
-    "seed": "docker exec -it prisma npm run seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
