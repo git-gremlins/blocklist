@@ -1,6 +1,9 @@
 {
   "scripts": {
     "dev": "nodemon --legacy-watch ./app.ts",
+    "seed": "prisma migrate reset -f",
+    "start": "docker compose -f ./db/docker-compose.yml -f ./db/dev/docker-compose.dev.yml up -d && npm run seed && npm run dev",
+    "stop": "docker compose -f ./db/docker-compose.yml -f ./db/dev/docker-compose.dev.yml down -v --remove-orphans"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
