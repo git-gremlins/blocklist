@@ -1,10 +1,29 @@
 {
+  "scripts": {
+    "dev": "nodemon --legacy-watch ./app.ts",
+    "start": "docker-compose up",
+    "build": "docker-compose build",
+    "stop": "docker-compose down",
+    "clean": "docker system prune -af",
+    "clean:volumes": "docker volume prune -f",
+    "seed": "docker exec -it prisma npm run seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
+    "@prisma/client": "^4.13.0",
     "@trpc/client": "^10.21.1",
-    "@trpc/server": "^10.21.1"
+    "@trpc/server": "^10.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
     "@types/node": "^18.16.1",
+    "nodemon": "^2.0.22",
     "prisma": "^4.13.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"

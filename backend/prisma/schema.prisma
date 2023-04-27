@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Task {
-    taskId       Int     @id @default(autoincrement())
+    taskId       Int    @id @default(autoincrement())
     name         String
-    description  String?
+    description  String
     parentTaskId Int?
-    parentTask   Task?   @relation("ChildTasks", fields: [parentTaskId], references: [taskId])
-    childTasks   Task[]  @relation("ChildTasks")
+    parentTask   Task?  @relation("ChildTasks", fields: [parentTaskId], references: [taskId])
+    childTasks   Task[] @relation("ChildTasks")
 }
