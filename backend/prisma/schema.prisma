@@ -10,6 +10,14 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model User {
+    userId   Int    @id @default(autoincrement())
+    name     String
+    surname  String
+    settings Json   @default("{}")
+    Task     Task[]
+}
+
 model Task {
     taskId       Int    @id @default(autoincrement())
     name         String
