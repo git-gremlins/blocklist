@@ -14,7 +14,7 @@ describe("getTasks", () => {
     const zTask = z.object({
       taskId: z.number(),
       name: z.string(),
-      descriptions: z.string(),
+      description: z.string(),
       parentTaskId: z.number().nullable(),
       userId: z.number(),
       importance: z.string(),
@@ -22,7 +22,7 @@ describe("getTasks", () => {
     });
     const tasks = await trpcClient.tasks.getTasks.query();
     tasks.map((task) => {
-      expect(zTask.safeParse(task)).not.toBeUndefined();
+      expect(zTask.parse(task)).not.toBeUndefined();
     });
   });
 });

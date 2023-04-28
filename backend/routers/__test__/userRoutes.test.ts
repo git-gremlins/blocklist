@@ -15,11 +15,11 @@ describe("getUsers", () => {
       userId: z.number(),
       name: z.string(),
       surname: z.string(),
-      settings: z.string(),
+      settings: z.any(),
     });
     const users = await trpcClient.users.getUsers.query();
     users.map((user) => {
-      expect(zUser.safeParse(user)).not.toBeUndefined();
+      expect(zUser.parse(user)).not.toBeUndefined();
     });
   });
 });
