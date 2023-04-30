@@ -6,7 +6,7 @@ describe("getUsers", () => {
     const users = await trpcClient.users.getUsers.query();
     expect(Array.isArray(users)).toBe(true);
   });
-  it("returned array should have length of 3", async () => {
+  it("returned array should have length of 7", async () => {
     const users = await trpcClient.users.getUsers.query();
     expect(users).toHaveLength(3);
   });

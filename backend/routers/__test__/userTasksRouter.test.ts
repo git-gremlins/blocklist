@@ -16,13 +16,13 @@ describe("getTasks", () => {
     const tasks = await trpcClient.userTasks.getTasks.query();
     expect(Array.isArray(tasks)).toBe(true);
   });
-  it("returned array should have length of 3", async () => {
+  it("returned array should have length of 7", async () => {
     const tasks = await trpcClient.userTasks.getTasks.query();
-    expect(tasks).toHaveLength(3);
+    expect(tasks).toHaveLength(17);
   });
   it("Each task array element should match our object type of task", async () => {
     const tasks = await trpcClient.userTasks.getTasks.query();
-    expect(tasks).toHaveLength(3);
+    expect(tasks).toHaveLength(17);
     tasks.map((task) => {
       expect(zTask.parse(task)).not.toBeUndefined();
     });
@@ -34,13 +34,13 @@ describe("getUserParentTasks", () => {
     const parentTasks = await trpcClient.userTasks.getParentTasks.query();
     expect(Array.isArray(parentTasks)).toBe(true);
   });
-  it("array should have a length of 3", async () => {
+  it("array should have a length of 7", async () => {
     const parentTasks = await trpcClient.userTasks.getParentTasks.query();
-    expect(parentTasks).toHaveLength(3);
+    expect(parentTasks).toHaveLength(7);
   });
   it("each tasks should have null in parentTaskId field", async () => {
     const parentTasks = await trpcClient.userTasks.getParentTasks.query();
-    expect(parentTasks).toHaveLength(3);
+    expect(parentTasks).toHaveLength(7);
     parentTasks.forEach((parentTask) =>
       expect(parentTask.parentTaskId).toBe(null)
     );
