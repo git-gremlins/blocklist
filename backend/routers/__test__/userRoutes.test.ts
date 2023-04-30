@@ -3,11 +3,11 @@ import trpcClient from "../../utils/trpc/trpsTestClient";
 
 describe("getUsers", () => {
   it("should return an array", async () => {
-    const users = await trpcClient.users.getUsers.query();
+    const users = await trpcClient.users.get.users.query();
     expect(Array.isArray(users)).toBe(true);
   });
   it("returned array should have length of 7", async () => {
-    const users = await trpcClient.users.getUsers.query();
+    const users = await trpcClient.users.get.users.query();
     expect(users).toHaveLength(3);
   });
   it("Each task array element should match our object type of user", async () => {
@@ -17,7 +17,7 @@ describe("getUsers", () => {
       surname: z.string(),
       settings: z.any(),
     });
-    const users = await trpcClient.users.getUsers.query();
+    const users = await trpcClient.users.get.users.query();
     users.map((user) => {
       expect(zUser.parse(user)).not.toBeUndefined();
     });

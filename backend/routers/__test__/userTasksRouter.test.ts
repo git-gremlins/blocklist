@@ -12,16 +12,17 @@ export const zTask = z.object({
 });
 
 describe("getTasks", () => {
+  const query = trpcClient.userTasks.get.tasks.query();
   it("should return an array", async () => {
-    const tasks = await trpcClient.userTasks.getTasks.query();
+    const tasks = await query;
     expect(Array.isArray(tasks)).toBe(true);
   });
   it("returned array should have length of 7", async () => {
-    const tasks = await trpcClient.userTasks.getTasks.query();
+    const tasks = await query;
     expect(tasks).toHaveLength(17);
   });
   it("Each task array element should match our object type of task", async () => {
-    const tasks = await trpcClient.userTasks.getTasks.query();
+    const tasks = await query;
     expect(tasks).toHaveLength(17);
     tasks.map((task) => {
       expect(zTask.parse(task)).not.toBeUndefined();
@@ -30,16 +31,17 @@ describe("getTasks", () => {
 });
 
 describe("getUserParentTasks", () => {
+  const query = trpcClient.userTasks.get.parentTasks.query();
   it("should return an array", async () => {
-    const parentTasks = await trpcClient.userTasks.getParentTasks.query();
+    const parentTasks = await query;
     expect(Array.isArray(parentTasks)).toBe(true);
   });
   it("array should have a length of 7", async () => {
-    const parentTasks = await trpcClient.userTasks.getParentTasks.query();
+    const parentTasks = await query;
     expect(parentTasks).toHaveLength(7);
   });
   it("each tasks should have null in parentTaskId field", async () => {
-    const parentTasks = await trpcClient.userTasks.getParentTasks.query();
+    const parentTasks = await query;
     expect(parentTasks).toHaveLength(7);
     parentTasks.forEach((parentTask) =>
       expect(parentTask.parentTaskId).toBe(null)

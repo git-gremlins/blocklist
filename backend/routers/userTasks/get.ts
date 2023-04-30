@@ -1,12 +1,8 @@
-import { router, publicProcedure } from "../utils/trpc";
-import {
-  getTasks,
-  getTopLevelTasks,
-} from "../controllers/tasks";
-
-const userTasksRouter = router({
-  getTasks: publicProcedure.query(({ ctx: { userId } }) => getTasks(userId)),
-  getParentTasks: publicProcedure.query(({ ctx: { userId } }) =>
+import { getTasks, getTopLevelTasks } from "../../controllers/tasks";
+import { router, publicProcedure } from "../../utils/trpc";
+const userTasksGet = router({
+  tasks: publicProcedure.query(({ ctx: { userId } }) => getTasks(userId)),
+  parentTasks: publicProcedure.query(({ ctx: { userId } }) =>
     getTopLevelTasks(userId)
   ),
   // post: publicProcedure
@@ -27,4 +23,4 @@ const userTasksRouter = router({
   //   }),
 });
 
-export default userTasksRouter;
+export default userTasksGet;
