@@ -1,7 +1,7 @@
 import z from "zod";
-import { TaskWithChild } from "../../controllers/tasks";
 import trpcClient from "../../utils/trpc/trpsTestClient";
 import { zTask } from "./userTasksRouter.test";
+import { TaskWithChild } from "../../controllers/tasks/getTaskAndAllParents";
 
 describe("getTasks", () => {
   it("should return an array", async () => {
