@@ -1,4 +1,4 @@
-import z, { array } from "zod";
+import z from "zod";
 import trpcClient from "../../utils/trpc/trpsTestClient";
 
 export const zTask = z.object({

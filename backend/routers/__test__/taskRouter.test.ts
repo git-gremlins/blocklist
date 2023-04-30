@@ -35,3 +35,17 @@ describe("getParentTasks", () => {
     );
   });
 });
+
+describe("getTasksAndChildren", () => {
+  it("should return an object", async () => {
+    const taskAndChildren = await trpcClient.tasks.getTaskAndChildren.query(10);
+    expect(Array.isArray(taskAndChildren)).toBe(false);
+    expect(typeof taskAndChildren).toBe("object");
+  });
+  it("all tasks in child tasks should reference the parent task as their foreign key", async () => {
+    const taskAndChildren = await trpcClient.tasks.getTaskAndChildren.query(10);
+    const childrenTasks = taskAndChildren.childTasks;
+    expect(childrenTasks).toHaveLength(10);
+    childrenTasks?.forEach((task) => expect(task.parentTaskId).toBe(10));
+  });
+});
