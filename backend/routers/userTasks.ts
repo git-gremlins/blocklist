@@ -1,8 +1,11 @@
 import { router, publicProcedure } from "../utils/trpc";
-import { getTasks } from "../controllers/tasks";
+import { getTasks, getParentTasks } from "../controllers/tasks";
 
-const tasksRouter = router({
-  getTasks: publicProcedure.query(getTasks),
+const userTasksRouter = router({
+  getTasks: publicProcedure.query(({ ctx: { userId } }) => getTasks(userId)),
+  getParentTasks: publicProcedure.query(({ ctx: { userId } }) =>
+    getParentTasks(userId)
+  ),
   // post: publicProcedure
   //   .input(
   //     z.object({
@@ -21,4 +24,4 @@ const tasksRouter = router({
   //   }),
 });
 
-export default tasksRouter;
+export default userTasksRouter;
