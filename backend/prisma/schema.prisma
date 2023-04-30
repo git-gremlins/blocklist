@@ -5,6 +5,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider = "zod-prisma-types"
+}
+
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -31,7 +35,7 @@ model Task {
     parentTaskId Int?
     parentTask   Task?      @relation("ChildTasks", fields: [parentTaskId], references: [taskId])
     childTasks   Task[]     @relation("ChildTasks")
-    user         User       @relation(fields: [userId], references: [userId])
+    user         User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
     userId       Int
     importance   Importance
     deadline     DateTime?
