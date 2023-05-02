@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
-import 'package:frontend/types/task/task.dart';
+import 'package:frontend/widgets/FutureData.dart';
 
-class ParentTaskScreen extends StatefulWidget {
-  const ParentTaskScreen({super.key, required this.title});
+class TaskViewScreen extends StatefulWidget {
+  const TaskViewScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ParentTaskScreen> createState() => _ParentTaskScreenState();
+  State<TaskViewScreen> createState() => _TaskViewScreenState();
 }
 
-class _ParentTaskScreenState extends State<ParentTaskScreen> {
+class _TaskViewScreenState extends State<TaskViewScreen> {
   final Future<dynamic> _task = Future.delayed(
     const Duration(seconds: 2),
     () => getTaskTree(10),
@@ -21,52 +21,48 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder<dynamic>(
+        title: FutureData<String, dynamic>(
           future: _task,
-          builder: (context, snapshot) {
-            String title;
-            if (snapshot.hasData) {
-              title = snapshot.data["name"];
-            } else {
-              title = "loading...";
-            }
-            return Text(title);
+          onDataCallback: (snapshot) {
+            return "hello";
+          },
+          onErrorCallback: (error) {
+            return "Error: $error";
+          },
+          loadingValue: "Loading...",
+          onReturnCallback: (result) {
+            return Text(result);
           },
         ),
       ),
-      body: FutureBuilder<dynamic>(
-        future: _task,
-        builder: (context, snapshot) {
-          dynamic tasklist;
-          if (snapshot.hasData) {
-            dynamic childTasks = snapshot.data["childTasks"];
-            tasklist = TaskChildList(snapshot: snapshot, data: childTasks);
-          } else if (snapshot.hasError) {
-            tasklist = <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: ${snapshot.error}'),
-              ),
-            ];
-          } else {
-            tasklist = const SizedBox(
-              width: 60,
-              height: 60,
-              child: CircularProgressIndicator(),
+      body: FutureData<Widget, dynamic>(
+          future: _task,
+          loadingValue: const SizedBox(
+            width: 60,
+            height: 60,
+            child: CircularProgressIndicator(),
+          ),
+          onDataCallback: (data) {
+            dynamic childTasks = data["childTasks"];
+            return TaskChildList(data: childTasks);
+          },
+          onErrorCallback: (error) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text('Error: $error'),
             );
-          }
-          return tasklist;
-        },
-      ),
+          },
+          onReturnCallback: (result) {
+            return result;
+          }),
     );
   }
 }
 
 class TaskChildList extends StatelessWidget {
-  const TaskChildList({required this.data, required this.snapshot, super.key});
-
   final dynamic data;
-  final AsyncSnapshot<dynamic> snapshot;
+
+  const TaskChildList({required this.data, super.key});
 
   @override
   Widget build(BuildContext context) {

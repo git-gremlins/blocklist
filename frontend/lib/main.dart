@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/fetch_screen.dart';
+import 'package:frontend/screens/parent_tasks.dart';
 
 void main() {
   runApp(const MyApp());
