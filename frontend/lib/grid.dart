@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:spannable_grid/spannable_grid.dart';
 
 void main() {
   runApp(const MyApp());
