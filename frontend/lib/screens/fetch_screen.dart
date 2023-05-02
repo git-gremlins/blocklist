@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
+import 'package:frontend/types/task/task.dart';
 
 class ParentTaskScreen extends StatefulWidget {
   const ParentTaskScreen({super.key, required this.title});
@@ -11,7 +12,7 @@ class ParentTaskScreen extends StatefulWidget {
 }
 
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
-  final Future<dynamic> _task = Future<dynamic>.delayed(
+  final Future<dynamic> _task = Future.delayed(
     const Duration(seconds: 2),
     () => getTaskTree(10),
   );
