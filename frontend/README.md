@@ -1,4 +1,4 @@
-# supabase_quickstart
+# frontend
 
 A new Flutter project.
 

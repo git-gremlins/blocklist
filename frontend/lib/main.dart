@@ -1,43 +1,82 @@
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_quickstart/pages/account_page.dart';
-import 'package:supabase_quickstart/pages/login_page.dart';
-import 'package:supabase_quickstart/pages/splash_page.dart';
+import 'dart:developer';
 
-Future<void> main() async {
-  await Supabase.initialize(
-    // TODO: generate safe credentials before production
-    url: 'http://localhost:8000',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE',
-  );
-  runApp(MyApp());
+import 'package:flutter/material.dart';
+import 'package:frontend/base_client.dart';
+import 'package:frontend/get_parse.dart';
+
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Supabase Flutter',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.green,
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.green,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.green,
-          ),
-        ),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
-        '/account': (_) => const AccountPage(),
-      },
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  late List<Datum>? _tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  void _getData() async {
+    _tasks = (await BaseClient().get())!;
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: _tasks == null || _tasks!.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: _tasks!.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 0.2, color: Colors.grey)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_tasks![index].name.toString()),
+                      Text(_tasks![index].description.toString()),
+                    ],
+                  ),
+                );
+              },
+            ),
     );
   }
 }
