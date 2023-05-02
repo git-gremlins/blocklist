@@ -12,7 +12,7 @@ class ParentTaskScreen extends StatefulWidget {
 
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
   final Future<dynamic> _task = Future<dynamic>.delayed(
-    const Duration(seconds: 0),
+    const Duration(seconds: 2),
     () => getTaskTree(10),
   );
 
@@ -36,42 +36,54 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
       body: FutureBuilder<dynamic>(
         future: _task,
         builder: (context, snapshot) {
-          List<Widget> children;
+          dynamic tasklist;
           if (snapshot.hasData) {
-            children = <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Result: ${snapshot.data["name"]}'),
-              ),
-            ];
+            dynamic childTasks = snapshot.data["childTasks"];
+            tasklist = TaskChildList(snapshot: snapshot, data: childTasks);
           } else if (snapshot.hasError) {
-            children = <Widget>[
+            tasklist = <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text('Error: ${snapshot.error}'),
               ),
             ];
           } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
+            tasklist = const SizedBox(
+              width: 60,
+              height: 60,
+              child: CircularProgressIndicator(),
+            );
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            ),
-          );
+          return tasklist;
         },
       ),
+    );
+  }
+}
+
+class TaskChildList extends StatelessWidget {
+  const TaskChildList({required this.data, required this.snapshot, super.key});
+
+  final dynamic data;
+  final AsyncSnapshot<dynamic> snapshot;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(width: 0.2, color: Colors.grey)),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [Text(data[index]["name"])]),
+        );
+      },
     );
   }
 }
