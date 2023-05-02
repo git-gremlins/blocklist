@@ -1,13 +1,11 @@
-import { Importance } from "@prisma/client/index";
+import z from "zod";
+import { TaskCreateManyInputSchema } from "../generated/zod";
 
-export type TaskCreateInput = {
-  name: string;
-  description: string;
-  importance: Importance;
-  deadline?: Date | string | null;
-  parentTaskId?: number;
-  userId: number;
-};
+export type TaskCreateInput = Omit<
+  z.infer<typeof TaskCreateManyInputSchema>,
+  "taskId"
+>;
+
 const tasks: TaskCreateInput[] = [
   {
     name: "Finish project",

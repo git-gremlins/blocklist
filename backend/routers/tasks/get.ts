@@ -18,4 +18,4 @@ const tasksGetRouter = router({
     .query(({ input: taskId }) => getTaskAndAllParents(taskId)),
 });
 
-export default tasksGetRouter
+export default tasksGetRouter;
