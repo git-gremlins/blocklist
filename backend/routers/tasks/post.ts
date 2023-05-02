@@ -7,8 +7,8 @@ const tasksPostRouter = router({
     .input(TaskCreateManyUserInputSchema)
     // because I can't find a zod type without taskId so we destructure it out
     .mutation(({ ctx: { userId }, input: { taskId, ...input } }) => {
-      const user = { userId, ...input };
-      return postTask(user);
+      const task = { userId, ...input };
+      return postTask(task);
     }),
 });
 
