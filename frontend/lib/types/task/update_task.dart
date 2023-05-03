@@ -8,15 +8,24 @@ class UpdateTask extends JSONMutationObject {
   int? userId;
   String? importance;
   String? deadline;
+  int? startRow;
+  int? startCol;
+  int? endRow;
+  int? endCol;
 
-  UpdateTask(
-      {required this.taskId,
-      this.name,
-      this.description,
-      this.parentTaskId,
-      this.userId,
-      this.importance,
-      this.deadline});
+  UpdateTask({
+    required this.taskId,
+    this.name,
+    this.description,
+    this.parentTaskId,
+    this.userId,
+    this.importance,
+    this.deadline,
+    this.startRow,
+    this.startCol,
+    this.endRow,
+    this.endCol,
+  });
 
   @override
   Map<String, dynamic> toJson() {
@@ -28,6 +37,10 @@ class UpdateTask extends JSONMutationObject {
     if (userId != null) data['userId'] = userId;
     if (importance != null) data['importance'] = importance;
     if (deadline != null) data['deadline'] = deadline;
+    if (startRow != null) data['startRow'] = startRow;
+    if (startCol != null) data['startCol'] = startCol;
+    if (endRow != null) data['endRow'] = endRow;
+    if (endCol != null) data['endCol'] = endCol;
     return data;
   }
 }

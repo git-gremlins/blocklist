@@ -20,6 +20,10 @@ CREATE TABLE "Task" (
     "userId" INTEGER NOT NULL,
     "importance" "Importance" NOT NULL,
     "deadline" TIMESTAMP(3),
+    "startRow" INTEGER NOT NULL,
+    "startCol" INTEGER NOT NULL,
+    "endRow" INTEGER NOT NULL,
+    "endCol" INTEGER NOT NULL,
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("taskId")
 );
@@ -28,4 +32,4 @@ CREATE TABLE "Task" (
 ALTER TABLE "Task" ADD CONSTRAINT "Task_parentTaskId_fkey" FOREIGN KEY ("parentTaskId") REFERENCES "Task"("taskId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
