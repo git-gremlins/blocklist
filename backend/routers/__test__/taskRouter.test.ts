@@ -11,7 +11,7 @@ describe("getTasks", () => {
   });
   it("returned array should have length of 20", async () => {
     const tasks = await query.query();
-    expect(tasks).toHaveLength(20);
+    expect(tasks).toHaveLength(12);
   });
   it("Each task array element should match our object type of task", async () => {
     const tasks = await query.query();
@@ -29,11 +29,11 @@ describe("getParentTasks", () => {
   });
   it("array should have a length of 10", async () => {
     const parentTasks = await query.query();
-    expect(parentTasks).toHaveLength(10);
+    expect(parentTasks).toHaveLength(6);
   });
   it("each tasks should have null in parentTaskId field", async () => {
     const parentTasks = await query.query();
-    expect(parentTasks).toHaveLength(10);
+    expect(parentTasks).toHaveLength(6);
     parentTasks.forEach((parentTask) =>
       expect(parentTask.parentTaskId).toBe(null)
     );
@@ -43,22 +43,22 @@ describe("getParentTasks", () => {
 describe("getTaskAndChildren", () => {
   const query = trpcClient.tasks.get.taskAndChildren;
   it("should return an object", async () => {
-    const taskAndChildren = await query.query(10);
+    const taskAndChildren = await query.query(6);
     expect(Array.isArray(taskAndChildren)).toBe(false);
     expect(typeof taskAndChildren).toBe("object");
   });
   it("all tasks in child tasks should reference the parent task as their foreign key", async () => {
-    const taskAndChildren = await query.query(10);
+    const taskAndChildren = await query.query(6);
     const childrenTasks = taskAndChildren.childTasks;
-    expect(childrenTasks).toHaveLength(9);
-    childrenTasks?.forEach((task) => expect(task.parentTaskId).toBe(10));
+    expect(childrenTasks).toHaveLength(5);
+    childrenTasks?.forEach((task) => expect(task.parentTaskId).toBe(6));
   });
 });
 
 describe("getTaskAndParents", () => {
   const queryRoute = trpcClient.tasks.get.taskAndParents;
   it("should return an object", async () => {
-    const taskAndChildren = await queryRoute.query(19);
+    const taskAndChildren = await queryRoute.query(12);
     expect(Array.isArray(taskAndChildren)).toBe(false);
     expect(typeof taskAndChildren).toBe("object");
   });
@@ -67,7 +67,7 @@ describe("getTaskAndParents", () => {
       if (!parentTask.child) return;
       expect(typeof parentTask.child).toBe("object");
     };
-    const taskAndChildren = (await queryRoute.query(19)) as TaskWithChild;
+    const taskAndChildren = (await queryRoute.query(12)) as TaskWithChild;
     checkChildType(taskAndChildren);
   });
   it("all child objects should match Task object", async () => {
@@ -78,7 +78,7 @@ describe("getTaskAndParents", () => {
       );
       zTaskWithChild.parse(parentTask);
     };
-    const taskAndChildren = (await queryRoute.query(19)) as TaskWithChild;
+    const taskAndChildren = (await queryRoute.query(12)) as TaskWithChild;
     checkChildStructure(taskAndChildren);
   });
   it("each child task should reference its direct parent", async () => {
@@ -86,7 +86,7 @@ describe("getTaskAndParents", () => {
       if (!parentTask.child) return;
       expect(parentTask.taskId).toBe(parentTask.child.parentTaskId);
     };
-    const taskAndChildren = (await queryRoute.query(19)) as TaskWithChild;
+    const taskAndChildren = (await queryRoute.query(12)) as TaskWithChild;
     checkChildReference(taskAndChildren);
   });
 });

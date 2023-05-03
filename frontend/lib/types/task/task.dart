@@ -8,6 +8,10 @@ class Task extends JSONMutationObject {
   int? userId;
   String? importance;
   String? deadline;
+  int? startRow;
+  int? startCol;
+  int? endRow;
+  int? endCol;
 
   Task(
       {required this.taskId,
@@ -16,7 +20,11 @@ class Task extends JSONMutationObject {
       this.parentTaskId,
       required this.userId,
       required this.importance,
-      this.deadline});
+      this.deadline,
+      required this.startRow,
+      required this.endRow,
+      required this.startCol,
+      required this.endCol});
 
   Task.fromJson(Map<String, dynamic> json) {
     taskId = json['taskId'];
@@ -26,6 +34,10 @@ class Task extends JSONMutationObject {
     userId = json['userId'];
     importance = json['importance'];
     deadline = json['deadline'];
+    startRow = json['startRow'];
+    startCol = json['startCol'];
+    endRow = json['endRow'];
+    endCol = json['endCol'];
   }
 
   @override
@@ -38,6 +50,10 @@ class Task extends JSONMutationObject {
     data['userId'] = userId;
     data['importance'] = importance;
     data['deadline'] = deadline;
+    data['startRow'] = startRow;
+    data['startCol'] = startCol;
+    data['endRow'] = endRow;
+    data['endCol'] = endCol;
     return data;
   }
 }

@@ -19,11 +19,11 @@ describe("getTasks", () => {
   });
   it("returned array should have length of 7", async () => {
     const tasks = await query;
-    expect(tasks).toHaveLength(17);
+    expect(tasks).toHaveLength(10);
   });
   it("Each task array element should match our object type of task", async () => {
     const tasks = await query;
-    expect(tasks).toHaveLength(17);
+    expect(tasks).toHaveLength(10);
     tasks.map((task) => {
       expect(zTask.parse(task)).not.toBeUndefined();
     });
@@ -38,11 +38,11 @@ describe("getUserParentTasks", () => {
   });
   it("array should have a length of 7", async () => {
     const parentTasks = await query;
-    expect(parentTasks).toHaveLength(7);
+    expect(parentTasks).toHaveLength(4);
   });
   it("each tasks should have null in parentTaskId field", async () => {
     const parentTasks = await query;
-    expect(parentTasks).toHaveLength(7);
+    expect(parentTasks).toHaveLength(4);
     parentTasks.forEach((parentTask) =>
       expect(parentTask.parentTaskId).toBe(null)
     );

@@ -39,4 +39,8 @@ model Task {
     userId       Int
     importance   Importance
     deadline     DateTime?
+    startRow     Int
+    startCol     Int
+    endRow       Int
+    endCol       Int
 }
