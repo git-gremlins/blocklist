@@ -7,8 +7,8 @@ Future getTaskTree(int taskId) {
   return BaseClient().get("tasks.get.taskAndChildren?input=$taskId");
 }
 
-Future<List<dynamic>> getParentTasks() async {
-  return await BaseClient().get("tasks.get.parentTasks");
+Future<List<dynamic>> getParentTasks(String userId) async {
+  return await BaseClient().get('userTasks.get.parentTasks?input="$userId"');
 }
 
 Future<Task> updateTask(UpdateTask task) async {

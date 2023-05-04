@@ -13,12 +13,10 @@ class ParentTaskScreen extends StatefulWidget {
 
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
   final Future<List<dynamic>> _parentTasks =
-      Future.delayed(const Duration(seconds: 1), () => getParentTasks());
+      Future.delayed(const Duration(seconds: 1), () => getParentTasks("1"));
 
   void _logout() {
-    print(supabase.auth.currentUser);
     supabase.auth.signOut();
-    print(supabase.auth.currentUser);
   }
 
   @override

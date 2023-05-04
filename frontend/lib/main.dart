@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/api.dart';
 import 'package:frontend/screens/parent_tasks.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

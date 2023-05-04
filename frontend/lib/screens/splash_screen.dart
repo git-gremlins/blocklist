@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:frontend/helpers/http_client.dart';
 import 'package:frontend/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,12 +25,16 @@ class _SplashPageState extends State<SplashPage> {
         await supabase.auth.signUp(email: email, password: password);
     final Session? session = res.session;
     final User? user = res.user;
-    await supabase.from("User").insert({
-      "userId": user!.id,
-      "name": "Kamal",
-      "surname": "Bodden-Glennon",
-      "settings": "{}"
-    }).select();
+    await BaseClient().post("users.post.user", {});
+  }
+
+  Future<void> _login(String email, String password) async {
+    final AuthResponse res = await supabase.auth
+        .signInWithPassword(email: email, password: password);
+    final Session? session = res.session;
+    final User? user = res.user;
+    print(user);
+    print(session);
   }
 
   @override
@@ -39,10 +44,16 @@ class _SplashPageState extends State<SplashPage> {
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitSignUpForm() {
     final email = _emailController.text;
     final password = _passwordController.text;
     _register_user(email, password);
+  }
+
+  void _submitLoginForm() {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    _login(email, password);
   }
 
   @override
@@ -65,10 +76,18 @@ class _SplashPageState extends State<SplashPage> {
               labelText: 'Password',
             ),
           ),
-          ElevatedButton(
-            onPressed: _submitForm,
-            child: const Text('Sign up'),
-          ),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: _submitSignUpForm,
+                child: const Text('Sign up'),
+              ),
+              ElevatedButton(
+                onPressed: _submitLoginForm,
+                child: const Text('Log in'),
+              ),
+            ],
+          )
         ],
       ),
     );
