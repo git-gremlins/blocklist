@@ -5,7 +5,7 @@ export const createContext = async ({
   req,
   res,
 }: CreateExpressContextOptions) => {
-  const userId = 1;
+  const userId = "1";
   return {
     userId,
   };

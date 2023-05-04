@@ -3,7 +3,7 @@ CREATE TYPE "Importance" AS ENUM ('low', 'medium', 'high');
 
 -- CreateTable
 CREATE TABLE "User" (
-    "userId" SERIAL NOT NULL,
+    "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
     "settings" JSONB NOT NULL DEFAULT '{}',
@@ -17,7 +17,7 @@ CREATE TABLE "Task" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "parentTaskId" INTEGER,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "importance" "Importance" NOT NULL,
     "deadline" TIMESTAMP(3),
     "startRow" INTEGER NOT NULL,

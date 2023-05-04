@@ -1,46 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 generator zod {
-    provider = "zod-prisma-types"
+  provider = "zod-prisma-types"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    userId   Int    @id @default(autoincrement())
-    name     String
-    surname  String
-    settings Json   @default("{}")
-    Tasks    Task[]
-}
-
-enum Importance {
-    low
-    medium
-    high
+  userId   String @id
+  name     String
+  surname  String
+  settings Json   @default("{}")
+  Tasks    Task[]
 }
 
 model Task {
-    taskId       Int        @id @default(autoincrement())
-    name         String
-    description  String
-    parentTaskId Int?
-    parentTask   Task?      @relation("ChildTasks", fields: [parentTaskId], references: [taskId])
-    childTasks   Task[]     @relation("ChildTasks")
-    user         User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
-    userId       Int
-    importance   Importance
-    deadline     DateTime?
-    startRow     Int
-    startCol     Int
-    endRow       Int
-    endCol       Int
+  taskId       Int        @id @default(autoincrement())
+  name         String
+  description  String
+  parentTaskId Int?
+  userId       String
+  importance   Importance
+  deadline     DateTime?
+  startRow     Int
+  startCol     Int
+  endRow       Int
+  endCol       Int
+  parentTask   Task?      @relation("ChildTasks", fields: [parentTaskId], references: [taskId])
+  childTasks   Task[]     @relation("ChildTasks")
+  user         User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
+
+enum Importance {
+  low
+  medium
+  high
 }

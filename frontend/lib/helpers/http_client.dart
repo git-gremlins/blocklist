@@ -47,4 +47,19 @@ class BaseClient {
       throw Exception("Failed to delete object");
     }
   }
+
+  Future<T> post<T>(String endpoint, dynamic mutationObject) async {
+    final url = Uri.parse("$root/$endpoint");
+    final response = await client.post(
+      url,
+      body: jsonEncode(mutationObject),
+      headers: {'Content-Type': 'application/json'},
+    );
+    dynamic jsonObject = (jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      return jsonObject["result"]["data"] as T;
+    } else {
+      throw Exception("Failed to delete object");
+    }
+  }
 }
