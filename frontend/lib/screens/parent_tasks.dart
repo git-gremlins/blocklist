@@ -4,8 +4,7 @@ import 'package:frontend/types/task/task.dart';
 import 'package:frontend/widgets/FutureData.dart';
 
 class ParentTaskScreen extends StatefulWidget {
-  const ParentTaskScreen({super.key, required this.title});
-  final String title;
+  const ParentTaskScreen({super.key});
 
   @override
   State<ParentTaskScreen> createState() => _ParentTaskScreenState();
