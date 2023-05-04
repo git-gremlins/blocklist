@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/screens/parent_tasks.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashPage extends StatefulWidget {
@@ -25,7 +24,6 @@ class _SplashPageState extends State<SplashPage> {
         await supabase.auth.signUp(email: email, password: password);
     final Session? session = res.session;
     final User? user = res.user;
-    print(user?.id);
     await supabase.from("User").insert({
       "userId": user!.id,
       "name": "Kamal",
@@ -45,9 +43,6 @@ class _SplashPageState extends State<SplashPage> {
     final email = _emailController.text;
     final password = _passwordController.text;
     _register_user(email, password);
-    // Navigator.pop(context);
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => const ParentTaskScreen()));
   }
 
   @override
