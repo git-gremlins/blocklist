@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/screens/parent_tasks.dart';
@@ -18,11 +19,45 @@ Future<void> main() async {
     url: SUPABASE_URL,
     anonKey: SUPABASE_ANON_KEY,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final StreamSubscription<AuthState> _authSubscription;
+  User? _user;
+  late bool _logged_in;
+
+  @override
+  void initState() {
+    if (supabase.auth.currentUser == null) {
+      _logged_in = false;
+    } else {
+      _logged_in = true;
+    }
+    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      // final AuthChangeEvent event = data.event
+      // final Session? session = data.session;
+      setState(() {
+        if (supabase.auth.currentUser == null) {
+          _logged_in = false;
+        } else {
+          _logged_in = true;
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authSubscription.cancel();
+    super.dispose();
+  }
 
   // This widget is the root of your application.
   @override
@@ -32,8 +67,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const ParentTaskScreen(title: 'Flutter Demo Home Page'),
-      home: const SplashPage(),
+      home: _logged_in ? const ParentTaskScreen() : const SplashPage(),
     );
   }
 }

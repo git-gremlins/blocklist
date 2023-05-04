@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/types/task/task.dart';
 import 'package:frontend/widgets/FutureData.dart';
 
@@ -14,10 +15,21 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
   final Future<List<dynamic>> _parentTasks =
       Future.delayed(const Duration(seconds: 1), () => getParentTasks());
 
+  void _logout() {
+    print(supabase.auth.currentUser);
+    supabase.auth.signOut();
+    print(supabase.auth.currentUser);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tasks")),
+      appBar: AppBar(
+        title: const Text("Tasks"),
+        actions: [
+          ElevatedButton(onPressed: _logout, child: const Text("Logout"))
+        ],
+      ),
       body: FutureData<Widget, List<dynamic>>(
         future: _parentTasks,
         onDataCallback: (data) {
