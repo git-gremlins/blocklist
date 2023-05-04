@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/types/task/task.dart';
 import 'package:frontend/widgets/FutureData.dart';
+import 'package:frontend/widgets/PopUpForm.dart';
+import 'package:frontend/widgets/TaskGrid.dart';
 
 class ParentTaskScreen extends StatefulWidget {
   const ParentTaskScreen({super.key});
@@ -12,64 +13,34 @@ class ParentTaskScreen extends StatefulWidget {
 }
 
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
-  final Future<List<dynamic>> _parentTasks =
-      Future.delayed(const Duration(seconds: 1), () => getParentTasks("1"));
-
-  void _logout() {
-    supabase.auth.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tasks"),
+        title: const Text(
+            'Stupid fucking flutter I will spit in the face of god when this works'),
         actions: [
-          ElevatedButton(onPressed: _logout, child: const Text("Logout"))
+          IconButton(
+            onPressed: () async {
+              await supabase.auth.signOut();
+            },
+            icon: const Icon(Icons.logout),
+            tooltip: "Log Out",
+          ),
         ],
       ),
-      body: FutureData<Widget, List<dynamic>>(
-        future: _parentTasks,
-        onDataCallback: (data) {
-          return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                String taskName = data[index]["name"];
-                return TaskCard(
-                  taskTitle: Text(taskName),
-                );
-              });
+      body: TaskGrid(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const PopUpForm();
+            },
+          );
         },
-        onErrorCallback: (error) => Text("Error: $error"),
-        onReturnCallback: (result) => result,
-        loadingValue: const SizedBox(
-          width: 60,
-          height: 60,
-          child: CircularProgressIndicator(),
-        ),
+        child: const Icon(Icons.add),
       ),
-    );
-  }
-}
-
-class TaskCard extends StatelessWidget {
-  final Text taskTitle;
-
-  const TaskCard({super.key, required this.taskTitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 0.2, color: Colors.grey),
-      ),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [taskTitle]),
     );
   }
 }

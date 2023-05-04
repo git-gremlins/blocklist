@@ -29,47 +29,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final StreamSubscription<AuthState> _authSubscription;
-  User? _user;
-  late bool _logged_in;
-
   @override
   void initState() {
-    if (supabase.auth.currentUser == null) {
-      _logged_in = false;
-    } else {
-      _logged_in = true;
-    }
-    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      // final AuthChangeEvent event = data.event
-      // final Session? session = data.session;
-      setState(() {
-        if (supabase.auth.currentUser == null) {
-          _logged_in = false;
-        } else {
-          _logged_in = true;
-        }
-      });
-    });
+    _getAuth();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _authSubscription.cancel();
-    super.dispose();
+  Future<void> _getAuth() async {
+    supabase.auth.onAuthStateChange.listen((event) {
+      setState(() {});
+    });
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: _logged_in ? const ParentTaskScreen() : const SplashPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+          body: supabase.auth.currentUser == null
+              ? const SplashPage()
+              : const ParentTaskScreen(),
+        ));
   }
 }
 
