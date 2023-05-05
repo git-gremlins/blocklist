@@ -15,17 +15,27 @@ class TaskGrid extends StatefulWidget {
 }
 
 class _TaskGrid extends State<TaskGrid> {
-  final Future<List<dynamic>> _parentTasks = Future.delayed(
-      const Duration(seconds: 1),
-      () => getParentTasks(supabase.auth.currentUser!.id));
+// class TaskGrid extends StatelessWidget {
+  // final Future<List<dynamic>> _parentTasks = Future.delayed(
+  //     const Duration(seconds: 1),
+  //     () => getParentTasks(supabase.auth.currentUser!.id));
 
   List<SpannableGridCellData> taskCells = <SpannableGridCellData>[];
 
   @override
   Widget build(BuildContext context) {
-    return FutureData<Widget, List<dynamic>>(
-      future: _parentTasks,
-      onDataCallback: (tasks) {
+    final parentTasks = supabase.from("Task").stream(primaryKey: ["taskId"]).eq(
+        "userId", supabase.auth.currentUser!.id);
+    return StreamBuilder(
+      stream: parentTasks,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        List<Map<String, dynamic>> tasks = snapshot.data!;
+        print(tasks);
         for (int i = 0; i < tasks.length; i++) {
           taskCells.add(
             SpannableGridCellData(
@@ -42,9 +52,6 @@ class _TaskGrid extends State<TaskGrid> {
         }
         return TaskSpannableGridCells(taskCells: taskCells);
       },
-      onReturnCallback: (result) => result,
-      onErrorCallback: (error) => TaskSpannableGridCells(taskCells: taskCells),
-      loadingValue: TaskSpannableGridCells(taskCells: taskCells),
     );
   }
 }

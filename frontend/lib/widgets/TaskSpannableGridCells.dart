@@ -3,6 +3,7 @@ import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/types/task/add_task.dart';
 import 'package:spannable_grid/spannable_grid.dart';
+import 'dart:math' as math;
 
 class TaskSpannableGridCells extends StatefulWidget {
   final List<SpannableGridCellData> taskCells;
@@ -38,6 +39,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       },
       showGrid: false,
       emptyCellView: GestureDetector(
+        // key: Key("${math.Random()}"),
         onPanStart: (details) => {
           print(
               "Start ${getParentRenderObject().globalToLocal(details.globalPosition)}"),
