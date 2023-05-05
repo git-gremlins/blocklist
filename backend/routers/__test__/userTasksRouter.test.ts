@@ -6,7 +6,7 @@ export const zTask = z.object({
   name: z.string(),
   description: z.string(),
   parentTaskId: z.number().nullable(),
-  userId: z.number(),
+  userId: z.string(),
   importance: z.string(),
   deadline: z.date().nullable(),
 });
@@ -31,12 +31,12 @@ describe("getTasks", () => {
 });
 
 describe("getUserParentTasks", () => {
-  const query = trpcClient.userTasks.get.parentTasks.query();
+  const query = trpcClient.userTasks.get.parentTasks.query("1");
   it("should return an array", async () => {
     const parentTasks = await query;
     expect(Array.isArray(parentTasks)).toBe(true);
   });
-  it("array should have a length of 7", async () => {
+  it("array should have a length of 4", async () => {
     const parentTasks = await query;
     expect(parentTasks).toHaveLength(4);
   });

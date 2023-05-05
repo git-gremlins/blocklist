@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "nodemon --legacy-watch ./app.ts",
-    "seed": "prisma migrate reset -f && echo '// @ts-nocheck' | cat - ./prisma/generated/zod/index.ts > temp && mv temp ./prisma/generated/zod/index.ts",
+    "seed": "prisma db seed && prisma migrate deploy && prisma generate && echo '// @ts-nocheck' | cat - ./prisma/generated/zod/index.ts > temp && mv temp ./prisma/generated/zod/index.ts",
     "start": "supabase start && npm run seed && npm run dev",
     "stop": "supabase stop",
     "test": "jest --detectOpenHandles --runInBand --verbose --passWithNoTests --no-cache"
