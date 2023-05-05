@@ -5,7 +5,6 @@ class AddTask extends JSONMutationObject {
   String description;
   int? parentTaskId;
   String userId;
-  String importance;
   String? deadline;
   int startRow;
   int startCol;
@@ -17,7 +16,6 @@ class AddTask extends JSONMutationObject {
     required this.description,
     this.parentTaskId,
     required this.userId,
-    required this.importance,
     this.deadline,
     required this.startRow,
     required this.startCol,
@@ -32,7 +30,6 @@ class AddTask extends JSONMutationObject {
     data['description'] = description;
     if (parentTaskId != null) data['parentTaskId'] = parentTaskId;
     data['userId'] = userId;
-    data['importance'] = importance;
     if (deadline != null) data['deadline'] = deadline;
     data['startRow'] = startRow;
     data['startCol'] = startCol;
