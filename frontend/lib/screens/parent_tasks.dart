@@ -25,7 +25,7 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
           ),
         ],
       ),
-      body: TaskGrid(),
+      body: SafeArea(child: Center(child: TaskGrid())),
     );
   }
 }
