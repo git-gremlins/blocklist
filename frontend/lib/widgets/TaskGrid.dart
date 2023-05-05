@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:frontend/api.dart';
-import 'package:frontend/main.dart';
 import 'package:frontend/widgets/FutureData.dart';
-import 'dart:math' as math;
+import 'package:frontend/widgets/TaskCard.dart';
+import 'package:frontend/widgets/TaskSpannableGridCells.dart';
+
+import 'package:spannable_grid/spannable_grid.dart';
 
 class TaskGrid extends StatefulWidget {
   const TaskGrid({super.key});
@@ -15,63 +16,35 @@ class TaskGrid extends StatefulWidget {
 class _TaskGrid extends State<TaskGrid> {
   final Future<List<dynamic>> _parentTasks = Future.delayed(
       const Duration(seconds: 1),
-      () => getParentTasks(supabase.auth.currentUser!.id));
+      // () => getParentTasks(supabase.auth.currentUser!.id));
+      () => getParentTasks("1"));
+
+  List<SpannableGridCellData> taskCells = <SpannableGridCellData>[];
 
   @override
   Widget build(BuildContext context) {
     return FutureData<Widget, List<dynamic>>(
-        future: _parentTasks,
-        onDataCallback: (tasks) {
-          return MasonryGridView.builder(
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                if (tasks[index]["importance"] == "low") {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      height: 150,
-                      child: ColoredBox(
-                          color: Color((math.Random().nextDouble() * 0xFFFFFF)
-                                  .toInt())
-                              .withOpacity(1.0),
-                          child: Text(tasks[index]["name"])),
-                    ),
-                  );
-                }
-                if (tasks[index]["importance"] == "medium") {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      height: 300,
-                      child: ColoredBox(
-                          color: Color((math.Random().nextDouble() * 0xFFFFFF)
-                                  .toInt())
-                              .withOpacity(1.0),
-                          child: Text(tasks[index]["name"])),
-                    ),
-                  );
-                }
-
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    height: 450,
-                    child: ColoredBox(
-                        color: Color(
-                                (math.Random().nextDouble() * 0xFFFFFF).toInt())
-                            .withOpacity(1.0),
-                        child: Text(tasks[index]["name"])),
-                  ),
-                );
-              });
-        },
-        onReturnCallback: (result) => result,
-        onErrorCallback: (error) => Text("Error: $error"),
-        loadingValue: const Center(child: CircularProgressIndicator()));
+      future: _parentTasks,
+      onDataCallback: (tasks) {
+        for (int i = 0; i < tasks.length; i++) {
+          taskCells.add(
+            SpannableGridCellData(
+              id: tasks[i]["taskId"],
+              column: tasks[i]["startCol"] + 1,
+              row: tasks[i]["startRow"] + 1,
+              columnSpan: (tasks[i]["endCol"] - tasks[i]["startCol"]) + 1,
+              rowSpan: (tasks[i]["endRow"] - tasks[i]["startRow"]) + 1,
+              child: TaskCard(
+                title: tasks[i]["name"],
+              ),
+            ),
+          );
+        }
+        return TaskSpannableGridCells(taskCells: taskCells);
+      },
+      onReturnCallback: (result) => result,
+      onErrorCallback: (error) => TaskSpannableGridCells(taskCells: taskCells),
+      loadingValue: TaskSpannableGridCells(taskCells: taskCells),
+    );
   }
 }
