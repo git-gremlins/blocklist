@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/types/task/add_task.dart';
+import 'package:frontend/types/task/task.dart';
 import 'package:supabase/supabase.dart';
 
 class PopUpForm extends StatefulWidget {
@@ -13,15 +16,21 @@ class _PopUpFormState extends State<PopUpForm> {
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
   String _selectedValue = "medium";
+  late Future<dynamic> _postedTask;
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Make Supabase request with input and selected value
-      await supabase
-          .from('tasks')
-          .insert({'task': _textController.text, 'Priority': _selectedValue});
-      // Close pop-up form
+      if (supabase.auth.currentUser == null) return;
       Navigator.pop(context);
+      _postedTask = postTask(AddTask(
+          name: _textController.text,
+          description: "Just this for now",
+          userId: supabase.auth.currentUser!.id,
+          importance: _selectedValue,
+          startRow: 1,
+          startCol: 2,
+          endRow: 5,
+          endCol: 5));
     }
   }
 

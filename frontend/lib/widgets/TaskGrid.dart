@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:frontend/api.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/widgets/FutureData.dart';
 import 'dart:math' as math;
 
@@ -12,8 +13,9 @@ class TaskGrid extends StatefulWidget {
 }
 
 class _TaskGrid extends State<TaskGrid> {
-  final Future<List<dynamic>> _parentTasks =
-      Future.delayed(const Duration(seconds: 1), () => getParentTasks("1"));
+  final Future<List<dynamic>> _parentTasks = Future.delayed(
+      const Duration(seconds: 1),
+      () => getParentTasks(supabase.auth.currentUser!.id));
 
   @override
   Widget build(BuildContext context) {
