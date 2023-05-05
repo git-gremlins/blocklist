@@ -41,6 +41,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       },
       showGrid: false,
       emptyCellView: GestureDetector(
+        // key: Key("${math.Random()}"),
         onPanStart: (details) => {
           setState(() {
             newItemStart =
