@@ -1,14 +1,14 @@
 import { publicProcedure, router } from "../../utils/trpc";
-import { TaskCreateManyUserInputSchema } from "../../prisma/generated/zod";
+import { TaskCreateManyInputSchema } from "../../prisma/generated/zod";
 import { postTask } from "../../controllers/tasks/postTask";
+import z from "zod";
 
 const tasksPostRouter = router({
   task: publicProcedure
-    .input(TaskCreateManyUserInputSchema)
+    .input(TaskCreateManyInputSchema)
     // because I can't find a zod type without taskId so we destructure it out
-    .mutation(({ ctx: { userId }, input: { taskId, ...input } }) => {
-      const task = { userId, ...input };
-      return postTask(task);
+    .mutation(({ input: { taskId, ...input } }) => {
+      return postTask(input);
     }),
 });
 
