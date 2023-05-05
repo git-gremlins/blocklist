@@ -6,21 +6,9 @@ export type UserCreateInput = {
 };
 const users: UserCreateInput[] = [
   {
-    userId: "1",
+    userId: "00000000-0000-0000-0000-000000000000",
     name: "John",
     surname: "Doe",
-    settings: {},
-  },
-  {
-    userId: "2",
-    name: "Jane",
-    surname: "Doe",
-    settings: {},
-  },
-  {
-    userId: "3",
-    name: "Bob",
-    surname: "Smith",
     settings: {},
   },
 ];

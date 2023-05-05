@@ -1,13 +1,13 @@
 import z from "zod";
 import { publicProcedure, router } from "../../utils/trpc";
-import { UserCreateWithoutTasksInputSchema } from "../../prisma/generated/zod";
+import { UserCreateManyInputSchema } from "../../prisma/generated/zod";
 import { postUser } from "../../controllers/users";
 
-export type CreateUser = z.infer<typeof UserCreateWithoutTasksInputSchema>;
+export type CreateUser = z.infer<typeof UserCreateManyInputSchema>;
 
 const usersPostRouter = router({
   user: publicProcedure
-    .input(UserCreateWithoutTasksInputSchema)
+    .input(UserCreateManyInputSchema)
     .mutation(({ input: newUser }) => postUser(newUser)),
 });
 
