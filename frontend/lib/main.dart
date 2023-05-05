@@ -50,6 +50,44 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
+          drawer: Drawer(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      DrawerHeader(
+                        child: Text('Settings'),
+                      ),
+                      ListTile(
+                        title: Text('Item 1'),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        title: Text('Item 2'),
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ListTile(
+                    leading: IconButton(
+                      onPressed: () async {
+                        await supabase.auth.signOut();
+                      },
+                      icon: const Icon(Icons.logout),
+                      tooltip: "Log Out",
+                    ),
+                    title: Text('Log Out'),
+                    onTap: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
           body: supabase.auth.currentUser == null
               ? const SplashPage()
               : const ParentTaskScreen(),
