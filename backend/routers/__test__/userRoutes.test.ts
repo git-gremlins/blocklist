@@ -2,7 +2,7 @@ import z from "zod";
 import trpcClient from "../../utils/trpc/trpsTestClient";
 
 const zUser = z.object({
-  userId: z.number(),
+  userId: z.string(),
   name: z.string(),
   surname: z.string(),
   settings: z.any(),
@@ -26,7 +26,7 @@ describe("getUsers", () => {
 });
 
 describe("get.user", () => {
-  const query = trpcClient.users.get.user.query(1);
+  const query = trpcClient.users.get.user.query("1");
   it("should return an object", async () => {
     const user = await query;
     expect(typeof user).toBe("object");
@@ -34,7 +34,7 @@ describe("get.user", () => {
   it("user object should match the first user data in the database", async () => {
     const user = await query;
     expect(user).toEqual({
-      userId: 1,
+      userId: "1",
       name: "John",
       surname: "Doe",
       settings: {},

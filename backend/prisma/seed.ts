@@ -4,8 +4,15 @@ import { users, tasks } from "./seedData";
 const p = new PrismaClient();
 
 async function main() {
+  await clearTables();
   await seedUsers();
   await seedTasks();
+}
+
+async function clearTables() {
+  await p.task.deleteMany();
+  await p.$executeRaw`ALTER SEQUENCE "Task_taskId_seq" RESTART WITH 1`;
+  await p.user.deleteMany();
 }
 
 async function seedUsers() {
