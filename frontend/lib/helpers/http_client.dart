@@ -50,15 +50,12 @@ class BaseClient {
 
   Future<T> post<T>(String endpoint, JSONMutationObject mutationObject) async {
     final url = Uri.parse("$root/$endpoint");
-    print(jsonEncode(mutationObject));
-    print("<<<<<<<<<< NEW TASK ALERT");
     final response = await client.post(
       url,
       body: jsonEncode(mutationObject),
       headers: {'Content-Type': 'application/json'},
     );
     dynamic jsonObject = (jsonDecode(response.body));
-    print(jsonObject);
     if (response.statusCode == 200) {
       return jsonObject["result"]["data"] as T;
     } else {

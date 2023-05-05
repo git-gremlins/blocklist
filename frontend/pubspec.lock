@@ -381,6 +381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  spannable_grid:
+    dependency: "direct main"
+    description:
+      name: spannable_grid
+      sha256: "6a13f93cae27365c2ad017da763849941dfdbf14ef20f2ccf04affb116368e68"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   stack_trace:
     dependency: transitive
     description:
