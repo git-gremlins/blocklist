@@ -35,7 +35,7 @@ class _TaskGrid extends State<TaskGrid> {
           );
         }
         List<Map<String, dynamic>> tasks = snapshot.data!;
-        print(tasks);
+        taskCells = [];
         for (int i = 0; i < tasks.length; i++) {
           taskCells.add(
             SpannableGridCellData(
@@ -45,12 +45,13 @@ class _TaskGrid extends State<TaskGrid> {
               columnSpan: (tasks[i]["endCol"] - tasks[i]["startCol"]) + 1,
               rowSpan: (tasks[i]["endRow"] - tasks[i]["startRow"]) + 1,
               child: TaskCard(
+                key: Key("${tasks[i]["taskId"]}"),
                 title: tasks[i]["name"],
               ),
             ),
           );
         }
-        return TaskSpannableGridCells(taskCells: taskCells);
+        return TaskSpannableGridCells(taskCells: taskCells, tasks: tasks);
       },
     );
   }
