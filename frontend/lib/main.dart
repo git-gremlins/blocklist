@@ -7,7 +7,7 @@ import 'package:frontend/screens/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: "../../backend/db/.env");
+  // await dotenv.load(fileName: "../../backend/db/.env");
   String? SUPABASE_URL =
       "http://localhost:54321"; //dotenv.env["API_EXTERNAL_URL"];
   String? SUPABASE_ANON_KEY =
