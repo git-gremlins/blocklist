@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/widgets/FutureData.dart';
 import 'package:frontend/widgets/TaskCard.dart';
 import 'package:frontend/widgets/TaskSpannableGridCells.dart';
@@ -16,8 +17,7 @@ class TaskGrid extends StatefulWidget {
 class _TaskGrid extends State<TaskGrid> {
   final Future<List<dynamic>> _parentTasks = Future.delayed(
       const Duration(seconds: 1),
-      // () => getParentTasks(supabase.auth.currentUser!.id));
-      () => getParentTasks("3"));
+      () => getParentTasks(supabase.auth.currentUser!.id));
 
   List<SpannableGridCellData> taskCells = <SpannableGridCellData>[];
 
