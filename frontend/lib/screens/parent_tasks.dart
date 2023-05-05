@@ -16,31 +16,31 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-            'Stupid fucking flutter I will spit in the face of god when this works'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await supabase.auth.signOut();
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: "Log Out",
-          ),
-        ],
-      ),
-      body: TaskGrid(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const PopUpForm();
-            },
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //       'Stupid fucking flutter I will spit in the face of god when this works'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () async {
+      //         await supabase.auth.signOut();
+      //       },
+      //       icon: const Icon(Icons.logout),
+      //       tooltip: "Log Out",
+      //     ),
+      //   ],
+      // ),
+      body: SafeArea(child: Center(child: TaskGrid())),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) {
+      //         return const PopUpForm();
+      //       },
+      //     );
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
