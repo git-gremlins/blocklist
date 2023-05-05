@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/api.dart';
+import 'package:frontend/main.dart';
+import 'package:frontend/types/task/add_task.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 
 class TaskSpannableGridCells extends StatefulWidget {
@@ -19,7 +22,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
     return _gridWidget.currentContext!.size!;
   }
 
-  RenderBox temp() {
+  RenderBox getParentRenderObject() {
     return _gridWidget.currentContext?.findRenderObject() as RenderBox;
   }
 
@@ -36,16 +39,19 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       showGrid: true,
       emptyCellView: GestureDetector(
         onPanStart: (details) => {
-          // print("Start ${_getSize()}"),
+          print(
+              "Start ${getParentRenderObject().globalToLocal(details.globalPosition)}"),
           setState(() {
-            newItemStart = details.localPosition;
+            newItemStart =
+                getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanUpdate: (details) => {
           // print("Size of widget ${_getSize()}"),
           // print("Location of start ${details.localPosition}"),
           setState(() {
-            newItemEnd = details.localPosition;
+            newItemEnd =
+                getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanEnd: (details) {
@@ -62,6 +68,18 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
               (newItemEnd!.dy / tileHeight).ceil(),
               (newItemEnd!.dx / tileWidth).ceil()
             ];
+            if (supabase.auth.currentUser == null) return;
+            var _postedTask = postTask(
+              AddTask(
+                  name: "test task",
+                  description: "Just this for now",
+                  userId: supabase.auth.currentUser!.id,
+                  importance: "medium",
+                  startRow: start[0] - 1,
+                  startCol: start[1] - 1,
+                  endRow: end[0] - 1,
+                  endCol: end[1] - 1),
+            );
 
             // print("Start: Y:${start[0] - 1} X:${start[1] - 1}");
             // print("End:  Y:${end[0] - 1} X:${end[1] - 1}");
