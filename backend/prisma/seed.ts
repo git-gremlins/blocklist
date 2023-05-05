@@ -5,8 +5,21 @@ const p = new PrismaClient();
 
 async function main() {
   await clearTables();
+  await enableRealtime("Task");
   await seedUsers();
   await seedTasks();
+}
+
+async function enableRealtime(...tables: string[]) {
+  for (let table of tables) {
+    await p.$executeRawUnsafe(`begin;`);
+    await p.$executeRawUnsafe(`drop publication if exists supabase_realtime;`);
+    await p.$executeRawUnsafe(`create publication supabase_realtime;`);
+    await p.$executeRawUnsafe(`commit;`);
+    await p.$executeRawUnsafe(
+      `alter publication supabase_realtime add table "${table}";`
+    );
+  }
 }
 
 async function clearTables() {
