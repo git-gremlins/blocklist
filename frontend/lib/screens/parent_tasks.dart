@@ -12,19 +12,7 @@ class ParentTaskScreen extends StatefulWidget {
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main tasks'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await supabase.auth.signOut();
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: "Log Out",
-          ),
-        ],
-      ),
+    return const Scaffold(
       body: SafeArea(child: Center(child: TaskGrid())),
     );
   }

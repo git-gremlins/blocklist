@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/screens/parent_tasks.dart';
 import 'package:frontend/screens/splash_screen.dart';
+import 'package:frontend/widgets/SlideOverMenu.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -50,44 +51,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          drawer: Drawer(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      DrawerHeader(
-                        child: Text('Settings'),
-                      ),
-                      ListTile(
-                        title: Text('Item 1'),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        title: Text('Item 2'),
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ListTile(
-                    leading: IconButton(
-                      onPressed: () async {
-                        await supabase.auth.signOut();
-                      },
-                      icon: const Icon(Icons.logout),
-                      tooltip: "Log Out",
-                    ),
-                    title: Text('Log Out'),
-                    onTap: () {},
-                  ),
-                ),
-              ],
-            ),
-          ),
+          drawer: const SlideOverMenu(),
           body: supabase.auth.currentUser == null
               ? const SplashPage()
               : const ParentTaskScreen(),
