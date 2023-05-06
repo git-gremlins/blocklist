@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/screens/parent_tasks.dart';
 import 'package:frontend/screens/splash_screen.dart';
+import 'package:frontend/widgets/SlideOverMenu.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
+          drawer: const SlideOverMenu(),
           body: supabase.auth.currentUser == null
               ? const SplashPage()
               : const ParentTaskScreen(),

@@ -39,7 +39,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       onCellChanged: (cell) {
         print('Cell ${cell?.child} changed');
       },
-      showGrid: true,
+      showGrid: false,
       emptyCellView: GestureDetector(
         onPanStart: (details) => {
           setState(() {
@@ -103,7 +103,13 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
           }
         },
         child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withOpacity(.5)),
+            color: Colors.grey
+                .withOpacity(0.1), // add your desired background color here
+            borderRadius: BorderRadius.circular(
+                10.0), // add your desired border radius here
+          ),
         ),
       ),
     );
