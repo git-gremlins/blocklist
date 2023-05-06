@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/widgets/FutureData.dart';
-import 'package:frontend/widgets/PopUpForm.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 class ParentTaskScreen extends StatefulWidget {
@@ -17,8 +14,7 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-            'Stupid fucking flutter I will spit in the face of god when this works'),
+        title: const Text('Main tasks'),
         actions: [
           IconButton(
             onPressed: () async {
@@ -30,17 +26,6 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
         ],
       ),
       body: TaskGrid(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const PopUpForm();
-            },
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
