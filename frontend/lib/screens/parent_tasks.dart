@@ -10,10 +10,21 @@ class ParentTaskScreen extends StatefulWidget {
 }
 
 class _ParentTaskScreenState extends State<ParentTaskScreen> {
+  final parentTasksStream = supabase.from("Task").stream(
+      primaryKey: ["taskId"]).eq("userId", supabase.auth.currentUser!.id);
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: Center(child: TaskGrid())),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: TaskGrid(
+            taskStream: parentTasksStream,
+            filterDataCallback: (data) =>
+                data.where((task) => task["parentTaskId"] == null),
+          ),
+        ),
+      ),
     );
   }
 }

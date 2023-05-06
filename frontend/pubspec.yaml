@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.6
   supabase_flutter: ^1.8.1
-  flutter_dotenv: ^5.0.2
   spannable_grid: ^0.3.0
 
 dev_dependencies:
