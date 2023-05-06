@@ -8,8 +8,12 @@ import 'dart:math' as math;
 class TaskSpannableGridCells extends StatefulWidget {
   final List<SpannableGridCellData> taskCells;
   final Iterable<dynamic> tasks;
+  final dynamic parentTask;
   const TaskSpannableGridCells(
-      {super.key, required this.taskCells, required this.tasks});
+      {super.key,
+      required this.taskCells,
+      required this.tasks,
+      this.parentTask});
 
   @override
   State<TaskSpannableGridCells> createState() => _TaskSpannableGridCells();
@@ -31,6 +35,8 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.parentTask);
+    print("FJKDJFLSJKFLJSL");
     return SpannableGrid(
       key: _gridWidget,
       columns: 4,
@@ -39,21 +45,24 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       onCellChanged: (cell) {
         print('Cell ${cell?.child} changed');
       },
-      showGrid: false,
+      showGrid: true,
       emptyCellView: GestureDetector(
         onPanStart: (details) => {
+          print("panstart"),
           setState(() {
             newItemStart =
                 getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanUpdate: (details) => {
+          print("panupdate"),
           setState(() {
             newItemEnd =
                 getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanEnd: (details) {
+          print("panend");
           double tileWidth = _getSize().width / 4;
           double tileHeight = _getSize().height / 8;
 
@@ -86,11 +95,14 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
             }).toList();
             if (collisions.contains(true)) return;
             try {
-              Future<dynamic> _postedTask = postTask(
+              Future<dynamic> postedTask = postTask(
                 AddTask(
                   name: "test task",
                   description: "Just this for now",
                   userId: supabase.auth.currentUser!.id,
+                  parentTaskId: widget.parentTask == null
+                      ? null
+                      : widget.parentTask["taskId"],
                   startRow: startRow,
                   startCol: startCol,
                   endRow: endRow,

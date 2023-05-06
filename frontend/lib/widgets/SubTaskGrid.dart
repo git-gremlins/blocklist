@@ -7,31 +7,30 @@ import 'package:frontend/widgets/TaskSpannableGridCells.dart';
 
 import 'package:spannable_grid/spannable_grid.dart';
 
-class TaskGrid extends StatefulWidget {
-  const TaskGrid({super.key});
+class SubTaskGrid extends StatefulWidget {
+  dynamic parentTask;
+  SubTaskGrid({super.key, required this.parentTask});
 
   @override
-  State<TaskGrid> createState() => _TaskGrid();
+  State<SubTaskGrid> createState() => _SubTaskGrid();
 }
 
-class _TaskGrid extends State<TaskGrid> {
+class _SubTaskGrid extends State<SubTaskGrid> {
   List<SpannableGridCellData> taskCells = <SpannableGridCellData>[];
 
   @override
   Widget build(BuildContext context) {
-    final parentTasksStream = supabase.from("Task").stream(
-        primaryKey: ["taskId"]).eq("userId", supabase.auth.currentUser!.id);
+    final taskStream = supabase.from("Task").stream(primaryKey: ["taskId"]).eq(
+        "parentTaskId", widget.parentTask["taskId"]);
     return StreamBuilder(
-      stream: parentTasksStream,
+      stream: taskStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        Iterable<Map<String, dynamic>> tasks =
-            snapshot.data!.where((task) => task["parentTaskId"] == null);
-        print(tasks);
+        List<Map<String, dynamic>> tasks = snapshot.data!;
         taskCells = [];
         for (var task in tasks) {
           taskCells.add(
@@ -51,7 +50,7 @@ class _TaskGrid extends State<TaskGrid> {
         return TaskSpannableGridCells(
           taskCells: taskCells,
           tasks: tasks,
-          parentTask: null,
+          parentTask: widget.parentTask,
         );
       },
     );
