@@ -7,7 +7,7 @@ import 'dart:math' as math;
 
 class TaskSpannableGridCells extends StatefulWidget {
   final List<SpannableGridCellData> taskCells;
-  final List<dynamic> tasks;
+  final Iterable<dynamic> tasks;
   const TaskSpannableGridCells(
       {super.key, required this.taskCells, required this.tasks});
 
@@ -42,16 +42,12 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       showGrid: false,
       emptyCellView: GestureDetector(
         onPanStart: (details) => {
-          print(
-              "Start ${getParentRenderObject().globalToLocal(details.globalPosition)}"),
           setState(() {
             newItemStart =
                 getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanUpdate: (details) => {
-          // print("Size of widget ${_getSize()}"),
-          // print("Location of start ${details.localPosition}"),
           setState(() {
             newItemEnd =
                 getParentRenderObject().globalToLocal(details.globalPosition);
@@ -72,45 +68,38 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
               (newItemEnd!.dx / tileWidth).ceil()
             ];
 
-            int startRow = math.min(start[0], end[0]) - 1;
-            int startCol = math.min(start[1], end[1]) - 1;
-            int endRow = math.min(math.max(start[0], end[0]) - 1, 7);
-            int endCol = math.min(math.max(start[1], end[1]) - 1, 3);
-            int dragEndRow = math.min(end[0] - 1, 7);
-            int dragEndCol = math.min(end[1] - 1, 3);
+            int startRow = math.max(math.min(start[0], end[0]) - 1, 0);
+            int startCol = math.max(math.min(start[1], end[1]) - 1, 0);
+            int endRow =
+                math.max(math.min(math.max(start[0], end[0]) - 1, 7), 0);
+            int endCol =
+                math.max(math.min(math.max(start[1], end[1]) - 1, 3), 0);
 
             if (supabase.auth.currentUser == null) return;
-            // print({
-            //   "task width": tileWidth,
-            //   "task height": tileHeight,
-            //   "start row": start[0],
-            //   "end row": end[0],
-            //   "start col": start[1],
-            //   "end col": end[1]
-            // });
             List<bool> collisions = widget.tasks.map((task) {
-              return dragEndRow >= task["startRow"] &&
-                  dragEndRow <= task["endRow"] &&
-                  dragEndCol >= task["startCol"] &&
-                  dragEndCol <= task["endCol"];
+              return ((task["startRow"] >= startRow &&
+                          task["startRow"] <= endRow) ||
+                      (task["endRow"] >= endRow && task["endRow"] <= endRow)) &&
+                  ((task["startCol"] >= startCol &&
+                          task["startCol"] <= endCol) ||
+                      (task["endCol"] >= startCol && task["endCol"] <= endCol));
             }).toList();
-            print(collisions);
             if (collisions.contains(true)) return;
-            Future<dynamic> _postedTask = postTask(
-              AddTask(
-                name: "test task",
-                description: "Just this for now",
-                userId: supabase.auth.currentUser!.id,
-                importance: "medium",
-                startRow: startRow,
-                startCol: startCol,
-                endRow: endRow,
-                endCol: endCol,
-              ),
-            );
-
-            // print("Start: Y:${start[0] - 1} X:${start[1] - 1}");
-            // print("End:  Y:${end[0] - 1} X:${end[1] - 1}");
+            try {
+              Future<dynamic> _postedTask = postTask(
+                AddTask(
+                  name: "test task",
+                  description: "Just this for now",
+                  userId: supabase.auth.currentUser!.id,
+                  startRow: startRow,
+                  startCol: startCol,
+                  endRow: endRow,
+                  endCol: endCol,
+                ),
+              );
+            } catch (err) {
+              throw Exception(err);
+            }
           }
         },
         child: Container(

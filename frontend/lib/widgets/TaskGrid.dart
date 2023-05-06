@@ -15,38 +15,35 @@ class TaskGrid extends StatefulWidget {
 }
 
 class _TaskGrid extends State<TaskGrid> {
-// class TaskGrid extends StatelessWidget {
-  // final Future<List<dynamic>> _parentTasks = Future.delayed(
-  //     const Duration(seconds: 1),
-  //     () => getParentTasks(supabase.auth.currentUser!.id));
-
   List<SpannableGridCellData> taskCells = <SpannableGridCellData>[];
 
   @override
   Widget build(BuildContext context) {
-    final parentTasks = supabase.from("Task").stream(primaryKey: ["taskId"]).eq(
-        "userId", supabase.auth.currentUser!.id);
+    final parentTasksStream = supabase.from("Task").stream(
+        primaryKey: ["taskId"]).eq("userId", supabase.auth.currentUser!.id);
     return StreamBuilder(
-      stream: parentTasks,
+      stream: parentTasksStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        List<Map<String, dynamic>> tasks = snapshot.data!;
+        Iterable<Map<String, dynamic>> tasks =
+            snapshot.data!.where((task) => task["parentTaskId"] == null);
+        print(tasks);
         taskCells = [];
-        for (int i = 0; i < tasks.length; i++) {
+        for (var task in tasks) {
           taskCells.add(
             SpannableGridCellData(
-              id: tasks[i]["taskId"],
-              column: tasks[i]["startCol"] + 1,
-              row: tasks[i]["startRow"] + 1,
-              columnSpan: (tasks[i]["endCol"] - tasks[i]["startCol"]) + 1,
-              rowSpan: (tasks[i]["endRow"] - tasks[i]["startRow"]) + 1,
+              id: task["taskId"],
+              column: task["startCol"] + 1,
+              row: task["startRow"] + 1,
+              columnSpan: (task["endCol"] - task["startCol"]) + 1,
+              rowSpan: (task["endRow"] - task["startRow"]) + 1,
               child: TaskCard(
-                key: Key("${tasks[i]["taskId"]}"),
-                title: tasks[i]["name"],
+                key: Key("${task["taskId"]}"),
+                title: task["name"],
               ),
             ),
           );
