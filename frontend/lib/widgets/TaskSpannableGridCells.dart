@@ -8,7 +8,7 @@ import 'dart:math' as math;
 class TaskSpannableGridCells extends StatefulWidget {
   final List<SpannableGridCellData> taskCells;
   final Iterable<dynamic> tasks;
-  final dynamic parentTask;
+  final Map<String, dynamic>? parentTask;
   const TaskSpannableGridCells(
       {super.key,
       required this.taskCells,
@@ -35,8 +35,6 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.parentTask);
-    print("FJKDJFLSJKFLJSL");
     return SpannableGrid(
       key: _gridWidget,
       columns: 4,
@@ -48,21 +46,18 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       showGrid: true,
       emptyCellView: GestureDetector(
         onPanStart: (details) => {
-          print("panstart"),
           setState(() {
             newItemStart =
                 getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanUpdate: (details) => {
-          print("panupdate"),
           setState(() {
             newItemEnd =
                 getParentRenderObject().globalToLocal(details.globalPosition);
           })
         },
         onPanEnd: (details) {
-          print("panend");
           double tileWidth = _getSize().width / 4;
           double tileHeight = _getSize().height / 8;
 
@@ -102,7 +97,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                   userId: supabase.auth.currentUser!.id,
                   parentTaskId: widget.parentTask == null
                       ? null
-                      : widget.parentTask["taskId"],
+                      : widget.parentTask!["taskId"],
                   startRow: startRow,
                   startCol: startCol,
                   endRow: endRow,

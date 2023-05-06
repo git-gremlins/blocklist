@@ -16,24 +16,10 @@ class TaskCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => SubTaskScreen(
-                      task: task,
-                    ))
-            // context,
-            // PageRouteBuilder(
-            //   pageBuilder: (_, __, ___) => SubTask(taskID: 900),
-            //   transitionDuration: Duration(milliseconds: 500),
-            //   transitionsBuilder: (_, a, __, c) => ScaleTransition(
-            //     scale: CurvedAnimation(
-            //       parent: a,
-            //       curve: Curves.linearToEaseOut,
-            //     ),
-            //     //100, 0 right to left
-            //     alignment: Alignment(100, 0),
-            //     child: c,
-            //   ),
-            // ),
-            );
+              builder: (context) => SubTaskScreen(
+                task: task,
+              ),
+            ));
       },
       child: Container(
         color: Colors.green,
