@@ -13,25 +13,42 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SubTaskScreen(
-                task: task,
-              ),
-            ));
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) {
+              return SubTaskScreen(task: task);
+            },
+            transitionsBuilder: (context, animation1, animation2, child) {
+              return ScaleTransition(
+                scale: animation1,
+                child: child,
+              );
+            },
+            transitionDuration: Duration(seconds: 3),
+            reverseTransitionDuration: Duration(seconds: 3),
+          ),
+        );
+        // MaterialPageRoute(
+        //   builder: (context) => SubTaskScreen(
+        //     task: task,
+        //   ),
+        // ));
       },
-      child: Container(
-        color: Colors.green,
-        child: Center(
-          child: Text(
-            task["name"],
-            style: const TextStyle(
-                decoration: TextDecoration.none,
-                fontFamily: 'Roboto',
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
+      child: Hero(
+        tag: "task-${task["taskId"]}",
+        child: Container(
+          color: Colors.green,
+          child: Center(
+            child: Text(
+              task["name"],
+              style: const TextStyle(
+                  decoration: TextDecoration.none,
+                  fontFamily: 'Roboto',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
           ),
         ),
       ),

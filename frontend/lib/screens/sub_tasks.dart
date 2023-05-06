@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/widgets/SubTaskGrid.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 class SubTaskScreen extends StatefulWidget {
@@ -17,15 +16,30 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
         "parentTaskId", widget.task["taskId"]);
   }
 
+  GlobalKey taskGrid = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: TaskGrid(
-            parentTask: widget.task,
-            taskStream: _get_stream(),
-          ),
+        child: Stack(
+          children: <Widget>[
+            SizedBox.expand(
+              child: Hero(
+                tag: "task-${widget.task["taskId"]}",
+                child: Container(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Center(
+              key: taskGrid,
+              child: TaskGrid(
+                parentTask: widget.task,
+                taskStream: _get_stream(),
+              ),
+            ),
+          ],
         ),
       ),
     );
