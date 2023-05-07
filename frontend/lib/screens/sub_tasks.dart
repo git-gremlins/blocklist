@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/widgets/SubTaskGrid.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 class SubTaskScreen extends StatefulWidget {
