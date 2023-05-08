@@ -38,7 +38,9 @@ class SlideOverMenu extends StatelessWidget {
                 tooltip: "Log Out",
               ),
               title: const Text('Log Out'),
-              onTap: () {},
+              onTap: () async {
+                await supabase.auth.signOut();
+              },
             ),
           ),
         ],

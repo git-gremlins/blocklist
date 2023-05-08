@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/sub_tasks.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+import '../helpers/colour_choice.dart';
 
 class TaskCard extends StatelessWidget {
   final dynamic task;
@@ -22,16 +25,16 @@ class TaskCard extends StatelessWidget {
             ));
       },
       child: Container(
-        color: Colors.green,
+        color: colourChoice(
+            task["endRow"], task["startRow"], task["endCol"], task["startCol"]),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             task["name"],
             style: const TextStyle(
-                decoration: TextDecoration.none,
                 fontFamily: 'Roboto',
-                fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
+            minFontSize: 12,
           ),
         ),
       ),
