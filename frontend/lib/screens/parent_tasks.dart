@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/widgets/SlideOverMenu.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 class ParentTaskScreen extends StatefulWidget {
@@ -15,22 +16,32 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: TaskGrid(
-            taskStream: parentTasksStream,
-            filterDataCallback: (data) =>
-                data.where((task) => task["parentTaskId"] == null),
+    return WillPopScope(
+      onWillPop: () async {
+        if (Navigator.of(context).userGestureInProgress) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        drawer: const SlideOverMenu(),
+        body: SafeArea(
+          child: Center(
+            child: TaskGrid(
+              taskStream: parentTasksStream,
+              filterDataCallback: (data) =>
+                  data.where((task) => task["parentTaskId"] == null),
+            ),
           ),
         ),
-      ),
-      floatingActionButton: IconButton(
-        onPressed: () async {
-          await supabase.auth.signOut();
-        },
-        icon: const Icon(Icons.logout),
-        tooltip: "Log Out",
+        floatingActionButton: IconButton(
+          onPressed: () async {
+            await supabase.auth.signOut();
+          },
+          icon: const Icon(Icons.logout),
+          tooltip: "Log Out",
+        ),
       ),
     );
   }
