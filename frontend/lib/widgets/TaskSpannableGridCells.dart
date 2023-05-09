@@ -167,12 +167,16 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
-            top: tileHeight * (newItemStart!.dy - 1),
-            left: tileWidth * (newItemStart!.dx - 1),
-            width: tileWidth * (newItemEnd!.dx - newItemStart!.dx + 1),
-            height: tileHeight * (newItemEnd!.dy - newItemStart!.dy + 1),
-            // width: newItemEnd!.dx - newItemStart!.dx,
-            // height: newItemEnd!.dy - newItemStart!.dy,
+            top: tileHeight * (math.min(newItemStart!.dy, newItemEnd!.dy) - 1),
+            left: tileWidth * (math.min(newItemStart!.dx, newItemEnd!.dx) - 1),
+            width: tileWidth *
+                (math.max(newItemEnd!.dx - newItemStart!.dx,
+                        newItemStart!.dx - newItemEnd!.dx) +
+                    1),
+            height: tileHeight *
+                (math.max(newItemEnd!.dy - newItemStart!.dy,
+                        newItemStart!.dy - newItemEnd!.dy) +
+                    1),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.red
