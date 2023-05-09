@@ -26,7 +26,7 @@ class TaskCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             color: colourChoice(task["endRow"], task["startRow"],
                 task["endCol"], task["startCol"])),
         child: Column(
