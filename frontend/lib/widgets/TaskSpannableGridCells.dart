@@ -68,11 +68,12 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       endCol = math.max(math.min(math.max(start[1], end[1]) - 1, 3), 0);
       if (supabase.auth.currentUser != null) {
         collisions = widget.tasks.map((task) {
-          return ((task["startRow"] >= startRow &&
-                      task["startRow"] <= endRow) ||
-                  (task["endRow"] >= endRow && task["endRow"] <= endRow)) &&
-              ((task["startCol"] >= startCol && task["startCol"] <= endCol) ||
-                  (task["endCol"] >= startCol && task["endCol"] <= endCol));
+          return (task["startRow"] <= startRow + (endRow - startRow)) &&
+              (task["startRow"] + (task["endRow"] - task["startRow"]) >=
+                  startRow) &&
+              (task["startCol"] <= startCol + (endCol - startCol)) &&
+              ((task["endCol"] - task["startCol"]) + task["startCol"] >=
+                  startCol);
         }).toList();
       }
     }
