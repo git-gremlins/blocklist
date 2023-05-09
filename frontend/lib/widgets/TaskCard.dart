@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/screens/sub_tasks.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:frontend/types/task/delete_task.dart';
 import 'package:frontend/types/task/update_task.dart';
 
 import '../helpers/colour_choice.dart';
@@ -19,21 +20,22 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool _isEditingText = false;
-
   late TextEditingController _titleController;
-
+  late TextEditingController _descriptionController;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.task["name"]);
+    _descriptionController =
+        TextEditingController(text: widget.task["description"]);
   }
 
   @override
   void dispose() {
     _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -41,13 +43,15 @@ class _TaskCardState extends State<TaskCard> {
     if (_formKey.currentState!.validate()) {
       Navigator.pop(context);
       updateTask(UpdateTask(
-          taskId: widget.task["taskId"], name: _titleController.text));
+          taskId: widget.task["taskId"],
+          name: _titleController.text,
+          description: _descriptionController.text));
     }
   }
 
   Widget _editTitleTextField() {
     return AlertDialog(
-      title: const Text('Add item'),
+      title: const Text('Edit your task'),
       content: Form(
         key: _formKey,
         child: Column(
@@ -66,6 +70,26 @@ class _TaskCardState extends State<TaskCard> {
               ),
             ),
             const SizedBox(height: 16),
+            TextFormField(
+              controller: _descriptionController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'change your description';
+                }
+                return null;
+              },
+              decoration: const InputDecoration(
+                labelText: 'Description',
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
+              },
+              child: const Text('Delete Task'),
+            )
           ],
         ),
       ),
