@@ -47,13 +47,7 @@ class SlideOverMenu extends StatelessWidget {
                     ),
                     title: const Text('Profile settings'),
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProfilePage(),
-                        ),
-                        ModalRoute.withName('/'),
-                      );
+                      // Navigator.push(context, route)
                     },
                   ),
                 ),

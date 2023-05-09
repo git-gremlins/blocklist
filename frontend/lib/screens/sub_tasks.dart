@@ -82,7 +82,6 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
         }
       },
       child: Scaffold(
-          drawer: const SlideOverMenu(),
           body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
@@ -94,7 +93,7 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
                       widget.task["startRow"],
                       widget.task["endCol"],
                       widget.task["startCol"])
-                  .withOpacity(0.5),
+                  .withOpacity(1),
               child: Padding(
                 padding: const EdgeInsets.all(22.0),
                 child: SafeArea(
