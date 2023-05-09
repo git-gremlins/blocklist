@@ -46,8 +46,36 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
     });
   }
 
+  late List<int> start, end;
+  late int startRow, startCol, endRow, endCol;
+  late List<bool> collisions;
   @override
   Widget build(BuildContext context) {
+    if (dragging) {
+      start = [
+        newItemStart!.dy.toInt(),
+        newItemStart!.dx.toInt(),
+      ];
+
+      end = [
+        newItemEnd!.dy.toInt(),
+        newItemEnd!.dx.toInt(),
+      ];
+
+      startRow = math.max(math.min(start[0], end[0]) - 1, 0);
+      startCol = math.max(math.min(start[1], end[1]) - 1, 0);
+      endRow = math.max(math.min(math.max(start[0], end[0]) - 1, 7), 0);
+      endCol = math.max(math.min(math.max(start[1], end[1]) - 1, 3), 0);
+      if (supabase.auth.currentUser != null) {
+        collisions = widget.tasks.map((task) {
+          return ((task["startRow"] >= startRow &&
+                      task["startRow"] <= endRow) ||
+                  (task["endRow"] >= endRow && task["endRow"] <= endRow)) &&
+              ((task["startCol"] >= startCol && task["startCol"] <= endCol) ||
+                  (task["endCol"] >= startCol && task["endCol"] <= endCol));
+        }).toList();
+      }
+    }
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
@@ -98,39 +126,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                 dragging = false;
               });
 
-              print([newItemStart, newItemEnd]);
-
               if (newItemEnd != null) {
-                var start = [
-                  newItemStart!.dy.toInt(),
-                  newItemStart!.dx.toInt(),
-                ];
-
-                var end = [
-                  newItemEnd!.dy.toInt(),
-                  newItemEnd!.dx.toInt(),
-                ];
-
-                print([start, end]);
-                //[0]  = .dy 1 = .dx
-                int startRow = math.max(math.min(start[0], end[0]) - 1, 0);
-                int startCol = math.max(math.min(start[1], end[1]) - 1, 0);
-                int endRow =
-                    math.max(math.min(math.max(start[0], end[0]) - 1, 7), 0);
-                int endCol =
-                    math.max(math.min(math.max(start[1], end[1]) - 1, 3), 0);
-
-                if (supabase.auth.currentUser == null) return;
-                List<bool> collisions = widget.tasks.map((task) {
-                  return ((task["startRow"] >= startRow &&
-                              task["startRow"] <= endRow) ||
-                          (task["endRow"] >= endRow &&
-                              task["endRow"] <= endRow)) &&
-                      ((task["startCol"] >= startCol &&
-                              task["startCol"] <= endCol) ||
-                          (task["endCol"] >= startCol &&
-                              task["endCol"] <= endCol));
-                }).toList();
                 if (collisions.contains(true)) return;
                 try {
                   Future<dynamic> postedTask = postTask(
@@ -179,10 +175,26 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                     1),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.red
-                    .withOpacity(0.1), // add your desired background color here
-                borderRadius: BorderRadius.circular(
-                    10.0), // add your desired border radius here
+                //collisions.contains(true)
+                color: !collisions.contains(true)
+                    ? Colors.indigo.withOpacity(0.1)
+                    : Colors.red.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10.0),
+
+                gradient: collisions.contains(true)
+                    ? const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment(-0.4, -0.8),
+                        stops: [0.0, 0.5, 0.5, 1],
+                        colors: [
+                          Colors.redAccent,
+                          Colors.redAccent,
+                          Colors.amber,
+                          Colors.amber,
+                        ],
+                        tileMode: TileMode.repeated,
+                      )
+                    : null,
               ),
             ),
           ),
