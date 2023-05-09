@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/screens/parent_tasks.dart';
+import 'package:frontend/screens/profile_screen.dart';
 
 class SlideOverMenu extends StatelessWidget {
   const SlideOverMenu({super.key});
@@ -47,7 +47,13 @@ class SlideOverMenu extends StatelessWidget {
                     ),
                     title: const Text('Profile settings'),
                     onTap: () {
-                      // Navigator.push(context, route)
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilePage(),
+                        ),
+                        ModalRoute.withName('/'),
+                      );
                     },
                   ),
                 ),
