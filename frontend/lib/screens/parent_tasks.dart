@@ -25,6 +25,13 @@ class _ParentTaskScreenState extends State<ParentTaskScreen> {
           ),
         ),
       ),
+      floatingActionButton: IconButton(
+        onPressed: () async {
+          await supabase.auth.signOut();
+        },
+        icon: const Icon(Icons.logout),
+        tooltip: "Log Out",
+      ),
     );
   }
 }
