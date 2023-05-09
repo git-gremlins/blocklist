@@ -56,19 +56,19 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
           columns: 4,
           rows: 8,
           cells: widget.taskCells,
-      onCellChanged: (cell) {
-        // where the hell does this ID come from haha how on earth does it corresponds with the task ID
-        int? taskId = cell?.id as int;
-        updateTask(
-          UpdateTask(
-            taskId: taskId,
-            startRow: cell!.row - 1,
-            startCol: cell.column - 1,
-            endRow: cell.row - 1 + cell.rowSpan - 1,
-            endCol: cell.column - 1 + cell.columnSpan - 1,
-          ),
-        );
-      },
+          onCellChanged: (cell) {
+            // where the hell does this ID come from haha how on earth does it corresponds with the task ID
+            int? taskId = cell?.id as int;
+            updateTask(
+              UpdateTask(
+                taskId: taskId,
+                startRow: cell!.row - 1,
+                startCol: cell.column - 1,
+                endRow: cell.row - 1 + cell.rowSpan - 1,
+                endCol: cell.column - 1 + cell.columnSpan - 1,
+              ),
+            );
+          },
           showGrid: true,
           emptyCellView: GestureDetector(
             onPanStart: (details) {
