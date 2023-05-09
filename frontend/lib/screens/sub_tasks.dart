@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/types/task/delete_task.dart';
+import 'package:frontend/types/task/update_task.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 import '../helpers/colour_choice.dart';
@@ -19,6 +20,53 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
   Stream _get_stream() {
     return supabase.from("Task").stream(primaryKey: ["taskId"]).eq(
         "parentTaskId", widget.task["taskId"]);
+  }
+
+  bool _isEditingText = false;
+  late TextEditingController _titleController;
+  var initialTitle = "create a title for your task";
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.task["name"]);
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  Widget _editTitleTextField() {
+    if (_isEditingText) {
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) async {
+            await updateTask(
+                UpdateTask(taskId: widget.task["taskId"], name: newValue));
+            setState(() {
+              _isEditingText = false;
+            });
+          },
+          autofocus: true,
+          controller: _titleController,
+        ),
+      );
+    }
+    return InkWell(
+        onTap: () {
+          setState(() {
+            _isEditingText = true;
+          });
+        },
+        child: Text(
+          widget.task["name"],
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+          ),
+        ));
   }
 
   @override
@@ -41,16 +89,8 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: AutoSizeText(
-                          widget.task["name"],
-                          style: const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                          maxFontSize: 22,
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(4.0),
+                          child: _editTitleTextField()),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: AutoSizeText(

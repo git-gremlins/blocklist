@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/sub_tasks.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:frontend/widgets/Update_task_form.dart';
 
 import '../helpers/colour_choice.dart';
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   final dynamic task;
 
-  const TaskCard({
+  TaskCard({
     super.key,
     required this.task,
   });
 
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -20,22 +26,30 @@ class TaskCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => SubTaskScreen(
-                task: task,
+                task: widget.task,
               ),
             ));
+      },
+      onDoubleTap: () {
+        showDialog(
+          context: context,
+          builder: ((context) {
+            return UpdateTaskForm(task: widget.task);
+          }),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: colourChoice(task["endRow"], task["startRow"],
-                task["endCol"], task["startCol"])),
+            color: colourChoice(widget.task["endRow"], widget.task["startRow"],
+                widget.task["endCol"], widget.task["startCol"])),
         child: Column(
           children: [
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: AutoSizeText(
-                  task["name"],
+                  widget.task["name"],
                   style: const TextStyle(
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
@@ -48,7 +62,7 @@ class TaskCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: AutoSizeText(
-                  task["description"],
+                  widget.task["description"],
                   style: const TextStyle(
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.normal,

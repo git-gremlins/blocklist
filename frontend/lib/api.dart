@@ -17,7 +17,7 @@ Future<dynamic> updateTask(UpdateTask task) async {
   return await BaseClient().patch<dynamic>("tasks.update.task", task);
 }
 
-Future<Task> deleteTask(RemoveTask task) async {
+Future<dynamic> deleteTask(RemoveTask task) async {
   return await BaseClient().delete("tasks.remove.task", task);
 }
 
