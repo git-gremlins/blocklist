@@ -13,8 +13,8 @@ Future<List<dynamic>> getParentTasks(String userId) async {
   return await BaseClient().get('userTasks.get.parentTasks?input="$userId"');
 }
 
-Future<Task> updateTask(UpdateTask task) async {
-  return await BaseClient().patch<Task>("tasks.update.task", task);
+Future<dynamic> updateTask(UpdateTask task) async {
+  return await BaseClient().patch<dynamic>("tasks.update.task", task);
 }
 
 Future<Task> deleteTask(RemoveTask task) async {

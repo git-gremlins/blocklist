@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/types/task/add_task.dart';
+import 'package:frontend/types/task/update_task.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 import 'dart:math' as math;
 
@@ -41,7 +42,17 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       rows: 8,
       cells: widget.taskCells,
       onCellChanged: (cell) {
-        print('Cell ${cell?.child} changed');
+        // where the hell does this ID come from haha how on earth does it corresponds with the task ID
+        int? taskId = cell?.id as int;
+        updateTask(
+          UpdateTask(
+            taskId: taskId,
+            startRow: cell!.row - 1,
+            startCol: cell.column - 1,
+            endRow: cell.row - 1 + cell.rowSpan - 1,
+            endCol: cell.column - 1 + cell.columnSpan - 1,
+          ),
+        );
       },
       showGrid: true,
       emptyCellView: GestureDetector(
