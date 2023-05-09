@@ -80,7 +80,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login whatever"),
+        title: const Center(child: Text("Sign in to BLOCKLIST!")),
       ),
       body: Center(
         child: Form(

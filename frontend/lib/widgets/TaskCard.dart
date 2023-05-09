@@ -25,17 +25,39 @@ class TaskCard extends StatelessWidget {
             ));
       },
       child: Container(
-        color: colourChoice(
-            task["endRow"], task["startRow"], task["endCol"], task["startCol"]),
-        child: Center(
-          child: AutoSizeText(
-            task["name"],
-            style: const TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-            minFontSize: 12,
-          ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: colourChoice(task["endRow"], task["startRow"],
+                task["endCol"], task["startCol"])),
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: AutoSizeText(
+                  task["name"],
+                  style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                  maxFontSize: 22,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: AutoSizeText(
+                  task["description"],
+                  style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black),
+                  maxFontSize: 12,
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -45,18 +45,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'BLOCKLIST',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("just here to log out"),
-        ),
         body: supabase.auth.currentUser == null
             ? const SplashPage()
             : const ParentTaskScreen(),
-        drawer: const SlideOverMenu(),
       ),
     );
   }
