@@ -72,7 +72,7 @@ class _SplashPageState extends State<SplashPage> {
           email: _emailController.text, password: _passwordController.text);
       await postUser(
           //update this bit
-          InputUser(userId: temp.user!.id, name: "Kamal", surname: "Sac"));
+          InputUser(userId: temp.user!.id));
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Success!"),
         backgroundColor: Color.fromARGB(255, 69, 247, 78),
@@ -101,6 +101,24 @@ class _SplashPageState extends State<SplashPage> {
                 fit: BoxFit.cover)),
         child: Stack(
           children: [
+            Positioned(
+              top: 200,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: Text(
+                    "BlockList",
+                    style: TextStyle(
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Center(
               child: Container(
                 //everything
@@ -115,7 +133,7 @@ class _SplashPageState extends State<SplashPage> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withOpacity(0.9),
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
@@ -137,7 +155,7 @@ class _SplashPageState extends State<SplashPage> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withOpacity(0.9),
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10),
@@ -173,7 +191,7 @@ class _SplashPageState extends State<SplashPage> {
                                         onPressed: _handleSignIn,
                                         style: ElevatedButton.styleFrom(
                                           primary:
-                                              Colors.green.withOpacity(0.5),
+                                              Colors.green.withOpacity(0.7),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
@@ -197,7 +215,7 @@ class _SplashPageState extends State<SplashPage> {
                                         onPressed: _handleSignUp,
                                         style: ElevatedButton.styleFrom(
                                           primary:
-                                              Colors.green.withOpacity(0.5),
+                                              Colors.yellow.withOpacity(0.7),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),

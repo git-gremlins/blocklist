@@ -48,9 +48,12 @@ class _UpdateTaskFormState extends State<UpdateTaskForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(40.0),
       child: AlertDialog(
-        title: const Text('Edit your task'),
+        title: const Text(
+          'Edit your task',
+          style: TextStyle(fontSize: 12),
+        ),
         content: Form(
           key: _formKey,
           child: Column(
@@ -60,26 +63,70 @@ class _UpdateTaskFormState extends State<UpdateTaskForm> {
                 controller: _titleController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'change task name';
+                    return 'add task name';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+                decoration: InputDecoration(
                   labelText: 'Task',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
-              TextFormField(
+              TextField(
                 controller: _descriptionController,
-                validator: (value) {
-                  // if (value!.isEmpty) {
-                  //   return 'change your description';
-                  // }
-                  return null;
-                },
-                decoration: const InputDecoration(
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: 10,
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+                decoration: InputDecoration(
                   labelText: 'Description',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                   hintText: 'add a description',
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
             ],

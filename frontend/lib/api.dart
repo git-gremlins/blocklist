@@ -38,35 +38,30 @@ Future<dynamic> updateUser(UpdateUser user) async {
 
 class InputUser extends JSONMutationObject {
   String userId;
-  String name;
-  String surname;
 
-  InputUser({required this.userId, required this.name, required this.surname});
+  InputUser({required this.userId});
 
   @override
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data["userId"] = userId;
-    data["name"] = name;
-    data["surname"] = surname;
+
     return data;
   }
 }
 
 class UpdateUser extends JSONMutationObject {
   String userId;
-  String? name;
-  String? surname;
+
   String? email;
 
-  UpdateUser({required this.userId, this.name, this.surname, this.email});
+  UpdateUser({required this.userId, this.email});
 
   @override
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data["userId"] = userId;
-    if (name != null) data["name"] = name;
-    if (surname != null) data["surname"] = surname;
+
     if (email != null) data["email"] = email;
     return data;
   }
