@@ -41,86 +41,180 @@ class _UpdateTaskFormState extends State<UpdateTaskForm> {
     }
   }
 
+  void _clearDescription() {
+    _descriptionController.text = '';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Edit your task'),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: _titleController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'change task name';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: 'Task',
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _descriptionController,
-              validator: (value) {
-                // if (value!.isEmpty) {
-                //   return 'change your description';
-                // }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                hintText: 'optional',
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitForm,
-              child: const Text('Update'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green.withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: AlertDialog(
+        title: const Text('Edit your task'),
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'change task name';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Task',
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        // Positioned(
-        //   top: 20,
-        //   left: 20,
-        //   child: IconButton(
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //     icon: Icon(Icons.close),
-        //   ),
-        // ),
-        ElevatedButton(
-          onPressed: () async {
-            Navigator.pop(context);
-            await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
-          },
-          child: Row(
-            children: [
-              Icon(Icons.delete),
-              SizedBox(width: 10),
-              Text('Delete / Complete Task'),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _descriptionController,
+                validator: (value) {
+                  // if (value!.isEmpty) {
+                  //   return 'change your description';
+                  // }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  hintText: 'optional',
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: const Text('Update'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green.withOpacity(0.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
             ],
           ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.red.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: _clearDescription,
+            child: const Text('Clear description'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.grey.withOpacity(0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
           ),
-        )
-      ],
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
+            },
+            child: Row(
+              children: [
+                Icon(Icons.delete),
+                SizedBox(width: 10),
+                Text('Delete / Complete Task'),
+              ],
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red.withOpacity(0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(20.0),
+//       child: AlertDialog(
+//         title: const Text('Edit your task'),
+//         content: Form(
+//           key: _formKey,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               TextFormField(
+//                 controller: _titleController,
+//                 validator: (value) {
+//                   if (value!.isEmpty) {
+//                     return 'change task name';
+//                   }
+//                   return null;
+//                 },
+//                 decoration: const InputDecoration(
+//                   labelText: 'Task',
+//                 ),
+//               ),
+//               const SizedBox(height: 16),
+//               TextFormField(
+//                 controller: _descriptionController,
+//                 validator: (value) {
+//                   // if (value!.isEmpty) {
+//                   //   return 'change your description';
+//                   // }
+//                   return null;
+//                 },
+//                 decoration: const InputDecoration(
+//                   labelText: 'Description',
+//                   hintText: 'optional',
+//                 ),
+//               ),
+//               const SizedBox(height: 10),
+//               ElevatedButton(
+//                 onPressed: _submitForm,
+//                 child: const Text('Update'),
+//                 style: ElevatedButton.styleFrom(
+//                   primary: Colors.green.withOpacity(0.5),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(20),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         actions: [
+//           ElevatedButton(
+//             onPressed: _clearDescription,
+//             child: const Text('Clear description'),
+//             style: ElevatedButton.styleFrom(
+//               primary: Colors.grey.withOpacity(0.5),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//             ),
+//           ),
+//           ElevatedButton(
+//             onPressed: () async {
+//               Navigator.pop(context);
+//               await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
+//             },
+//             child: Row(
+//               children: [
+//                 Icon(Icons.delete),
+//                 SizedBox(width: 10),
+//                 Text('Delete / Complete Task'),
+//               ],
+//             ),
+//             style: ElevatedButton.styleFrom(
+//               primary: Colors.red.withOpacity(0.5),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }

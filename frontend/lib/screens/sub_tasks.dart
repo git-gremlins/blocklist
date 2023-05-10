@@ -100,6 +100,7 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                             maxFontSize: 22,
+                            maxLines: 1,
                           ),
                         ),
                         Padding(
@@ -111,6 +112,7 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
                                 fontWeight: FontWeight.normal,
                                 color: Colors.black),
                             maxFontSize: 12,
+                            maxLines: 1,
                           ),
                         ),
                         Expanded(
