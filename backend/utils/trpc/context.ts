@@ -12,7 +12,6 @@ export const createContext = async ({
   const {
     data: { user },
   } = await supabase.auth.getUser(JWTToken);
-  console.log(user);
   return {
     authenticationStatus: user?.role,
     userId: user?.id,
