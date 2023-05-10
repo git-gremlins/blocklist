@@ -18,6 +18,13 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
+  int calculateMaxLines() {
+    var maxLines = 2 *
+        (widget.task["endCol"] - widget.task["startCol"] + 1) *
+        (widget.task["endRow"] - widget.task["startRow"] + 1);
+    return maxLines.toInt();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -40,7 +47,6 @@ class _TaskCardState extends State<TaskCard> {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
           color: colourChoice(widget.task["endRow"], widget.task["startRow"],
               widget.task["endCol"], widget.task["startCol"]),
           border: Border.all(
@@ -48,38 +54,36 @@ class _TaskCardState extends State<TaskCard> {
             width: 2,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: AutoSizeText(
-                  widget.task["name"],
-                  style: const TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                  overflow: TextOverflow.ellipsis,
-                  maxFontSize: 22,
-                  maxLines: 1,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                widget.task["name"],
+                style: const TextStyle(
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
-              Padding(
+            ),
+            Expanded(
+              child: Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: AutoSizeText(
+                child: Text(
                   widget.task["description"],
                   style: const TextStyle(
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.normal,
                       color: Colors.black),
                   overflow: TextOverflow.ellipsis,
-                  maxFontSize: 12,
-                  maxLines: 3,
+                  maxLines: 1000,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
