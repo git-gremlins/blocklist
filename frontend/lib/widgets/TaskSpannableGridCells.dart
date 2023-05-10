@@ -24,6 +24,12 @@ class TaskSpannableGridCells extends StatefulWidget {
 class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
   final GlobalKey _gridWidget = GlobalKey();
 
+  static const List<String> backgroundImages = [
+    // 'assets/p1.jpg',
+    'assets/p5.jpg',
+    // 'assets/p3.jpg'
+  ];
+
   Offset? newItemStart;
   Offset? newItemEnd;
   bool dragging = false;
@@ -45,6 +51,26 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
       tileWidth = _getSize().width / 4;
       tileHeight = _getSize().height / 8;
     });
+  }
+
+  BoxDecoration getDecoration() {
+    if (widget.parentTask == null) {
+      return BoxDecoration(
+        border: Border.all(color: Colors.grey.withOpacity(.3)),
+        color: Colors.grey
+            .withOpacity(0.1), // add your desired background color here
+        borderRadius:
+            BorderRadius.circular(10.0), // add your desired border radius here
+      );
+    } else {
+      return BoxDecoration(
+        border: Border.all(color: Colors.grey.withOpacity(.6)),
+        color: Colors.grey
+            .withOpacity(0.3), // add your desired background color here
+        borderRadius:
+            BorderRadius.circular(10.0), // add your desired border radius here
+      );
+    }
   }
 
   late List<int> start, end;
@@ -156,15 +182,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                 }
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.withOpacity(.5)),
-                color: Colors.grey
-                    .withOpacity(0.1), // add your desired background color here
-                borderRadius: BorderRadius.circular(
-                    0.0), // add your desired border radius here
-              ),
-            ),
+            child: Container(decoration: getDecoration()),
           ),
         ),
         if (dragging)
