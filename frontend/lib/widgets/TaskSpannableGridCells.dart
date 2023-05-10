@@ -126,7 +126,6 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
               setState(() {
                 dragging = false;
               });
-
               if (newItemEnd != null) {
                 if (collisions.contains(true)) return;
                 try {
