@@ -26,8 +26,9 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   static const List<String> backgroundImages = [
-    // 'https://i.seadn.io/gae/0jPQNCjX-zkP8NjDnlmOTlQsrgE5mO8o4m4Seotr6JSFr4SLeRZilyp_dB5K430x59PiNe6xT37Docg7jZ1Xeaf-1GIMcvBrc2Qmeg?auto=format&w=1000',
-    'https://i.seadn.io/gae/w5XoKsN9vXLP0_cKIPM4bB5cJSGfgKt241MMl1FxD4IhcnTlzkhBN3HAVVhSqCfib_3_iUB0t_tTzhak-hlQ_oOVv0frCMkJFlbKwQ?auto=format&w=1200',
+    // 'assets/p1.jpg',
+    'assets/p5.jpg',
+    // 'assets/p3.jpg'
   ];
 
   String _getRandomBackgroundImage() {
@@ -70,6 +71,7 @@ class _SplashPageState extends State<SplashPage> {
       var temp = await supabase.auth.signUp(
           email: _emailController.text, password: _passwordController.text);
       await postUser(
+          //update this bit
           InputUser(userId: temp.user!.id, name: "Kamal", surname: "Sac"));
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Success!"),
@@ -95,7 +97,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage(_getRandomBackgroundImage()),
+                image: AssetImage(_getRandomBackgroundImage()),
                 fit: BoxFit.cover)),
         child: Stack(
           children: [

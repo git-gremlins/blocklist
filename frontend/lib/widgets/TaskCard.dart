@@ -40,13 +40,19 @@ class _TaskCardState extends State<TaskCard> {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colourChoice(widget.task["endRow"], widget.task["startRow"],
-                widget.task["endCol"], widget.task["startCol"])),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
+          borderRadius: BorderRadius.circular(0),
+          color: colourChoice(widget.task["endRow"], widget.task["startRow"],
+              widget.task["endCol"], widget.task["startCol"]),
+          border: Border.all(
+            color: Colors.black,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: AutoSizeText(
                   widget.task["name"],
@@ -57,9 +63,7 @@ class _TaskCardState extends State<TaskCard> {
                   maxFontSize: 22,
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
+              Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: AutoSizeText(
                   widget.task["description"],
@@ -70,8 +74,8 @@ class _TaskCardState extends State<TaskCard> {
                   maxFontSize: 12,
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
