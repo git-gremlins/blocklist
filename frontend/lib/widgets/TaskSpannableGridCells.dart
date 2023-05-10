@@ -3,6 +3,7 @@ import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/types/task/add_task.dart';
 import 'package:frontend/types/task/update_task.dart';
+import 'package:frontend/widgets/Update_task_form.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 import 'dart:math' as math;
 
@@ -122,31 +123,34 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                 );
               });
             },
-            onPanEnd: (details) {
+            onPanEnd: (details) async {
               setState(() {
                 dragging = false;
               });
 
               if (newItemEnd != null) {
                 if (collisions.contains(true)) return;
-                try {
-                  Future<dynamic> postedTask = postTask(
-                    AddTask(
-                      name: "test task",
-                      description: "Just this for now",
-                      userId: supabase.auth.currentUser!.id,
-                      parentTaskId: widget.parentTask == null
-                          ? null
-                          : widget.parentTask!["taskId"],
-                      startRow: startRow,
-                      startCol: startCol,
-                      endRow: endRow,
-                      endCol: endCol,
-                    ),
-                  );
-                } catch (err) {
-                  throw Exception(err);
-                }
+                dynamic postedTask = await postTask(
+                  AddTask(
+                    name: "",
+                    description: "",
+                    userId: supabase.auth.currentUser!.id,
+                    parentTaskId: widget.parentTask == null
+                        ? null
+                        : widget.parentTask!["taskId"],
+                    startRow: startRow,
+                    startCol: startCol,
+                    endRow: endRow,
+                    endCol: endCol,
+                  ),
+                );
+                // ignore: use_build_context_synchronously
+                showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return UpdateTaskForm(task: postedTask);
+                  }),
+                );
               }
             },
             child: Container(
@@ -158,7 +162,6 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                     10.0), // add your desired border radius here
               ),
             ),
-
           ),
         ),
         if (dragging)

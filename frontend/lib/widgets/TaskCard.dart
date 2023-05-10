@@ -21,7 +21,7 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onDoubleTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -30,7 +30,7 @@ class _TaskCardState extends State<TaskCard> {
               ),
             ));
       },
-      onDoubleTap: () {
+      onTap: () {
         showDialog(
           context: context,
           builder: ((context) {
