@@ -1,12 +1,12 @@
 import z from "zod";
 import { getTasks, getTopLevelTasks } from "../../controllers/tasks";
-import { router, publicProcedure } from "../../utils/trpc";
+import { router, userProcedure } from "../../utils/trpc";
 const userTasksGet = router({
-  tasks: publicProcedure.query(({ ctx: { userId } }) => getTasks(userId)),
+  tasks: userProcedure.query(({ ctx: { userId } }) => getTasks(userId)),
   // parentTasks: publicProcedure.query(({ ctx: { userId } }) =>
   //   getTopLevelTasks(userId)
   // ),
-  parentTasks: publicProcedure
+  parentTasks: userProcedure
     .input(z.string())
     .query(({ input: userId }) => getTopLevelTasks(userId)),
   // post: publicProcedure

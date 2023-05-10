@@ -4,16 +4,16 @@ import {
   getTasks,
   getTopLevelTasks,
 } from "../../controllers/tasks";
-import { router, publicProcedure } from "../../utils/trpc";
+import { router, userProcedure } from "../../utils/trpc";
 import z from "zod";
 
 const tasksGetRouter = router({
-  tasks: publicProcedure.query(() => getTasks()),
-  parentTasks: publicProcedure.query(() => getTopLevelTasks()),
-  taskAndChildren: publicProcedure
+  tasks: userProcedure.query(() => getTasks()),
+  parentTasks: userProcedure.query(() => getTopLevelTasks()),
+  taskAndChildren: userProcedure
     .input(z.number())
     .query(({ input: taskId }) => getTaskAndChildren(taskId)),
-  taskAndParents: publicProcedure
+  taskAndParents: userProcedure
     .input(z.number())
     .query(({ input: taskId }) => getTaskAndAllParents(taskId)),
 });

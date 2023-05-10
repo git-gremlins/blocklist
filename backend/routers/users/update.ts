@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "../../utils/trpc";
+import { userProcedure, router } from "../../utils/trpc";
 import { UserUncheckedCreateInputSchema } from "../../prisma/generated/zod";
 import { updateUser } from "../../controllers/users";
 import z from "zod";
@@ -9,7 +9,7 @@ export type UpdateUser = Omit<
 >;
 
 const updateUserRouter = router({
-  user: publicProcedure
+  user: userProcedure
     .input(UserUncheckedCreateInputSchema)
     .mutation(({ input }) => {
       return updateUser(input);
