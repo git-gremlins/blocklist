@@ -27,63 +27,75 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SubTaskScreen(
-                task: widget.task,
-              ),
-            ));
-      },
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: ((context) {
-            return UpdateTaskForm(task: widget.task);
-          }),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: colourChoice(widget.task["endRow"], widget.task["startRow"],
-              widget.task["endCol"], widget.task["startCol"]),
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                widget.task["name"],
-                style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
+    //wrapped in scaffold for the big text/underline issue
+    return Scaffold(
+      body: Container(
+        child: GestureDetector(
+          onDoubleTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubTaskScreen(
+                    task: widget.task,
+                  ),
+                ));
+          },
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: ((context) {
+                return UpdateTaskForm(task: widget.task);
+              }),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: colourChoice(
+                  widget.task["endRow"],
+                  widget.task["startRow"],
+                  widget.task["endCol"],
+                  widget.task["startCol"]),
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(
-                  widget.task["description"],
-                  style: const TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1000,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  //fixed the thinned out tile on hold with sized box infinity
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      widget.task["name"],
+                      style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      widget.task["description"],
+                      style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1000,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
