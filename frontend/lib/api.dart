@@ -2,7 +2,6 @@ import 'package:frontend/helpers/http_client.dart';
 import 'package:frontend/types/generic/json_types.dart';
 import 'package:frontend/types/task/add_task.dart';
 import 'package:frontend/types/task/delete_task.dart';
-import 'package:frontend/types/task/task.dart';
 import 'package:frontend/types/task/update_task.dart';
 
 Future getTaskTree(int taskId) {
@@ -25,8 +24,16 @@ Future<dynamic> postTask(AddTask task) async {
   return await BaseClient().post("tasks.post.task", task);
 }
 
+Future<dynamic> getUser({required String userId}) async {
+  return await BaseClient().get('users.get.user?input="$userId"');
+}
+
 Future<dynamic> postUser(InputUser user) async {
   return await BaseClient().post("users.post.user", user);
+}
+
+Future<dynamic> updateUser(UpdateUser user) async {
+  return await BaseClient().patch("users.update.user", user);
 }
 
 class InputUser extends JSONMutationObject {
@@ -42,6 +49,25 @@ class InputUser extends JSONMutationObject {
     data["userId"] = userId;
     data["name"] = name;
     data["surname"] = surname;
+    return data;
+  }
+}
+
+class UpdateUser extends JSONMutationObject {
+  String userId;
+  String? name;
+  String? surname;
+  String? email;
+
+  UpdateUser({required this.userId, this.name, this.surname, this.email});
+
+  @override
+  Map<String, dynamic>? toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["userId"] = userId;
+    if (name != null) data["name"] = name;
+    if (surname != null) data["surname"] = surname;
+    if (email != null) data["email"] = email;
     return data;
   }
 }

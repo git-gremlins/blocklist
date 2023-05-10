@@ -4,6 +4,7 @@ import 'package:frontend/api.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/types/task/delete_task.dart';
 import 'package:frontend/types/task/update_task.dart';
+import 'package:frontend/widgets/SlideOverMenu.dart';
 import 'package:frontend/widgets/TaskGrid.dart';
 
 import '../helpers/colour_choice.dart';
@@ -55,24 +56,34 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
       );
     }
     return InkWell(
-        onTap: () {
-          setState(() {
-            _isEditingText = true;
-          });
-        },
-        child: Text(
-          widget.task["name"],
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18.0,
-          ),
-        ));
+      onTap: () {
+        setState(() {
+          _isEditingText = true;
+        });
+      },
+      child: Text(
+        widget.task["name"],
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: GestureDetector(
+    return WillPopScope(
+      onWillPop: () async {
+        if (Navigator.of(context).userGestureInProgress) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+          drawer: const SlideOverMenu(),
+          body: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () {
             Navigator.pop(context);
@@ -113,29 +124,30 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
                                 color: Colors.black),
                             maxFontSize: 12,
                             maxLines: 1,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: TaskGrid(
-                            parentTask: widget.task,
-                            taskStream: _get_stream(),
+                          Expanded(
+                            child: TaskGrid(
+                              parentTask: widget.task,
+                              taskStream: _get_stream(),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        floatingActionButton: IconButton(
-          onPressed: () async {
-            Navigator.pop(context);
-            await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
-          },
-          icon: const Icon(Icons.delete_forever),
-          tooltip: "Delete this task",
-        ));
+          floatingActionButton: IconButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
+            },
+            icon: const Icon(Icons.delete_forever),
+            tooltip: "Delete this task",
+          )),
+    );
   }
 }
