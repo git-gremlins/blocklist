@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/SubTaskCard.dart';
 import 'package:frontend/widgets/TaskCard.dart';
 import 'package:frontend/widgets/TaskSpannableGridCells.dart';
 
@@ -9,11 +10,12 @@ class TaskGrid extends StatefulWidget {
   final Iterable<Map<String, dynamic>> Function(dynamic data)?
       filterDataCallback;
   final Map<String, dynamic>? parentTask;
-  const TaskGrid(
-      {super.key,
-      required this.taskStream,
-      this.filterDataCallback,
-      this.parentTask});
+  const TaskGrid({
+    super.key,
+    required this.taskStream,
+    this.filterDataCallback,
+    this.parentTask,
+  });
 
   @override
   State<TaskGrid> createState() => _TaskGrid();
@@ -43,10 +45,15 @@ class _TaskGrid extends State<TaskGrid> {
               row: task["startRow"] + 1,
               columnSpan: (task["endCol"] - task["startCol"]) + 1,
               rowSpan: (task["endRow"] - task["startRow"]) + 1,
-              child: TaskCard(
-                key: Key("${task["taskId"]}"),
-                task: task,
-              ),
+              child: task["parentTaskId"] == null
+                  ? TaskCard(
+                      key: Key("${task["taskId"]}"),
+                      task: task,
+                    )
+                  : SubTaskCard(
+                      key: Key("${task["taskId"]}"),
+                      task: task,
+                    ),
             ),
           );
         }

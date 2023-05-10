@@ -45,45 +45,48 @@ class _TaskCardState extends State<TaskCard> {
           }),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: colourChoice(widget.task["endRow"], widget.task["startRow"],
-              widget.task["endCol"], widget.task["startCol"]),
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                widget.task["name"],
-                style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
+      child: Hero(
+        tag: widget.task["taskId"],
+        child: Container(
+          decoration: BoxDecoration(
+            color: colourChoice(widget.task["endRow"], widget.task["startRow"],
+                widget.task["endCol"], widget.task["startCol"]),
+            border: Border.all(
+              color: Colors.black,
+              width: 2,
             ),
-            Expanded(
-              child: Padding(
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Text(
-                  widget.task["description"],
+                  widget.task["name"],
                   style: const TextStyle(
                       fontFamily: 'Roboto',
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                       color: Colors.black),
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 1000,
+                  maxLines: 1,
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    widget.task["description"],
+                    style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1000,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
