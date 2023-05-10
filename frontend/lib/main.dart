@@ -58,7 +58,6 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.teal,
         ),
         home: Scaffold(
-          drawer: const SlideOverMenu(),
           body: supabase.auth.currentUser == null
               ? const SplashPage()
               : const ParentTaskScreen(),

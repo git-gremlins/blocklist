@@ -82,6 +82,7 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
         }
       },
       child: Scaffold(
+          drawer: const SlideOverMenu(),
           body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
