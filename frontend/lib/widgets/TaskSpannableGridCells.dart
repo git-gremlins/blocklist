@@ -127,30 +127,33 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
               setState(() {
                 dragging = false;
               });
-
               if (newItemEnd != null) {
                 if (collisions.contains(true)) return;
-                dynamic postedTask = await postTask(
-                  AddTask(
-                    name: "",
-                    description: "",
-                    userId: supabase.auth.currentUser!.id,
-                    parentTaskId: widget.parentTask == null
-                        ? null
-                        : widget.parentTask!["taskId"],
-                    startRow: startRow,
-                    startCol: startCol,
-                    endRow: endRow,
-                    endCol: endCol,
-                  ),
-                );
-                // ignore: use_build_context_synchronously
-                showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return UpdateTaskForm(task: postedTask);
-                  }),
-                );
+                try {
+                  dynamic postedTask = await postTask(
+                    AddTask(
+                      name: "",
+                      description: "",
+                      userId: supabase.auth.currentUser!.id,
+                      parentTaskId: widget.parentTask == null
+                          ? null
+                          : widget.parentTask!["taskId"],
+                      startRow: startRow,
+                      startCol: startCol,
+                      endRow: endRow,
+                      endCol: endCol,
+                    ),
+                  );
+                  // ignore: use_build_context_synchronously
+                  showDialog(
+                    context: context,
+                    builder: ((context) {
+                      return UpdateTaskForm(task: postedTask);
+                    }),
+                  );
+                } catch (err) {
+                  throw Exception(err);
+                }
               }
             },
             child: Container(

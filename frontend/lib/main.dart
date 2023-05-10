@@ -43,16 +43,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BLOCKLIST',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: Scaffold(
-        body: supabase.auth.currentUser == null
-            ? const SplashPage()
-            : const ParentTaskScreen(),
+    return WillPopScope(
+      onWillPop: () async {
+        if (Navigator.of(context).userGestureInProgress) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'BLOCKLIST',
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        home: Scaffold(
+          body: supabase.auth.currentUser == null
+              ? const SplashPage()
+              : const ParentTaskScreen(),
+        ),
       ),
     );
   }
