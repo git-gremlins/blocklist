@@ -158,6 +158,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                     10.0), // add your desired border radius here
               ),
             ),
+
           ),
         ),
         if (dragging)
