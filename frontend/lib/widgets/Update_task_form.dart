@@ -79,18 +79,7 @@ class _UpdateTaskFormState extends State<UpdateTaskForm> {
                 },
                 decoration: const InputDecoration(
                   labelText: 'Description',
-                  hintText: 'optional',
-                ),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Update'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green.withOpacity(0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  hintText: 'add a description',
                 ),
               ),
             ],
@@ -98,34 +87,28 @@ class _UpdateTaskFormState extends State<UpdateTaskForm> {
         ),
         actions: [
           ElevatedButton(
-            onPressed: _clearDescription,
-            child: const Text('Clear description'),
+            onPressed: _submitForm,
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey.withOpacity(0.5),
+              backgroundColor: Colors.green.withOpacity(0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
+            child: const Text('Update'),
           ),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
               await deleteTask(RemoveTask(taskId: widget.task["taskId"]));
             },
-            child: Row(
-              children: [
-                Icon(Icons.delete),
-                SizedBox(width: 10),
-                Text('Delete / Complete Task'),
-              ],
-            ),
             style: ElevatedButton.styleFrom(
-              primary: Colors.red.withOpacity(0.5),
+              backgroundColor: Colors.red.withOpacity(0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-          )
+            child: const Text('Remove Task'),
+          ),
         ],
       ),
     );
