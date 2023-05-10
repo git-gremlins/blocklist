@@ -84,47 +84,46 @@ class _SubTaskScreenState extends State<SubTaskScreen> {
       child: Scaffold(
           drawer: const SlideOverMenu(),
           body: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              color: colourChoice(
-                      widget.task["endRow"],
-                      widget.task["startRow"],
-                      widget.task["endCol"],
-                      widget.task["startCol"])
-                  .withOpacity(1),
-              child: Padding(
-                padding: const EdgeInsets.all(22.0),
-                child: SafeArea(
-                  child: Center(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: AutoSizeText(
-                              widget.task["name"],
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                              maxFontSize: 22,
-                            ),
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            color: colourChoice(widget.task["endRow"], widget.task["startRow"],
+                    widget.task["endCol"], widget.task["startCol"])
+                .withOpacity(1),
+            child: Padding(
+              padding: const EdgeInsets.all(22.0),
+              child: SafeArea(
+                child: Center(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {},
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: AutoSizeText(
+                            widget.task["name"],
+                            style: const TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            maxFontSize: 22,
+                            maxLines: 1,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: AutoSizeText(
-                              widget.task["description"],
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                              maxFontSize: 12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: AutoSizeText(
+                            widget.task["description"],
+                            style: const TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black),
+                            maxFontSize: 12,
+                            maxLines: 1,
                             ),
                           ),
                           Expanded(

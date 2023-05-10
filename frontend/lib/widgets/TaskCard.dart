@@ -61,6 +61,7 @@ class _TaskCardState extends State<TaskCard> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                   maxFontSize: 22,
+                  maxLines: 1,
                 ),
               ),
               Padding(
@@ -72,6 +73,7 @@ class _TaskCardState extends State<TaskCard> {
                       fontWeight: FontWeight.normal,
                       color: Colors.black),
                   maxFontSize: 12,
+                  maxLines: 3,
                 ),
               ),
             ],

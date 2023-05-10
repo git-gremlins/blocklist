@@ -162,7 +162,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
                 color: Colors.grey
                     .withOpacity(0.1), // add your desired background color here
                 borderRadius: BorderRadius.circular(
-                    10.0), // add your desired border radius here
+                    0.0), // add your desired border radius here
               ),
             ),
           ),
