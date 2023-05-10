@@ -104,13 +104,13 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
             onPanStart: (details) {
               Offset position =
                   getParentRenderObject().globalToLocal(details.globalPosition);
+
+              var startPos = Offset((position.dx / tileWidth).ceil().toDouble(),
+                  (position.dy / tileWidth).ceil().toDouble());
               setState(() {
-                newItemStart = Offset(
-                  (position.dx / tileWidth).ceil().toDouble(),
-                  (position.dy / tileWidth).ceil().toDouble(),
-                );
+                newItemStart = startPos;
+                newItemEnd = startPos;
                 dragging = true;
-                newItemEnd = Offset.zero;
               });
             },
             onPanUpdate: (details) {
