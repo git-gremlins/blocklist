@@ -104,7 +104,7 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
               Future<dynamic> postedTask = postTask(
                 AddTask(
                   name: "test task",
-                  description: "Just this for now",
+                  description: "",
                   userId: supabase.auth.currentUser!.id,
                   parentTaskId: widget.parentTask == null
                       ? null
@@ -125,8 +125,8 @@ class _TaskSpannableGridCells extends State<TaskSpannableGridCells> {
             border: Border.all(color: Colors.grey.withOpacity(.5)),
             color: Colors.grey
                 .withOpacity(0.1), // add your desired background color here
-            borderRadius: BorderRadius.circular(
-                10.0), // add your desired border radius here
+            borderRadius:
+                BorderRadius.circular(0), // add your desired border radius here
           ),
         ),
       ),
