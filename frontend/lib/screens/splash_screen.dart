@@ -101,6 +101,24 @@ class _SplashPageState extends State<SplashPage> {
                 fit: BoxFit.cover)),
         child: Stack(
           children: [
+            Positioned(
+              top: 200,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: Text(
+                    "BlockList",
+                    style: TextStyle(
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Center(
               child: Container(
                 //everything
