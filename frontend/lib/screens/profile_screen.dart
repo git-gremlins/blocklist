@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/api.dart';
+import 'package:frontend/main.dart';
+import 'package:frontend/widgets/FutureData.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,13 +13,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController? _nameController;
   TextEditingController? _surnameController;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: "John");
-    _surnameController = TextEditingController(text: "Doe");
-  }
+  Future<dynamic> user = getUser(userId: supabase.auth.currentUser!.id);
 
   @override
   void dispose() {
@@ -41,40 +38,49 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text(
-                "Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              const Text(
-                "Surname",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              TextField(
-                controller: _surnameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ],
-          ),
+          child: FutureData<List<Widget>, dynamic>(
+              future: user,
+              onDataCallback: (data) {
+                _nameController = TextEditingController(text: data["name"]);
+                _surnameController =
+                    TextEditingController(text: data["surname"]);
+                return <Widget>[
+                  const Text(
+                    "Name",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  const Text(
+                    "Surname",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  TextField(
+                    controller: _surnameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ];
+              },
+              onReturnCallback: (value) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: value),
+              onErrorCallback: (err) => <Widget>[Text(err.toString())],
+              loadingValue: const <Widget>[Text("Loading...")]),
         ),
       ),
     );

@@ -25,6 +25,10 @@ Future<dynamic> postTask(AddTask task) async {
   return await BaseClient().post("tasks.post.task", task);
 }
 
+Future<dynamic> getUser({required String userId}) async {
+  return await BaseClient().get('users.get.user?input="$userId"');
+}
+
 Future<dynamic> postUser(InputUser user) async {
   return await BaseClient().post("users.post.user", user);
 }
