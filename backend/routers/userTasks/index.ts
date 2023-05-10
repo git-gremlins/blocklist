@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../../utils/trpc";
+import { router, userProcedure } from "../../utils/trpc";
 import get from "./get";
 
 const userTasksRouter = router({

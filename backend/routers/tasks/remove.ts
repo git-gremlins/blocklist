@@ -1,9 +1,9 @@
 import z from "zod";
-import { router, publicProcedure } from "../../utils/trpc";
+import { router, userProcedure } from "../../utils/trpc";
 import { deleteTask } from "../../controllers/tasks/deleteTask";
 
 const taskDeleteRouter = router({
-  task: publicProcedure
+  task: userProcedure
     .input(z.object({ taskId: z.number() }))
     .mutation(({ input: { taskId } }) => deleteTask(taskId)),
 });

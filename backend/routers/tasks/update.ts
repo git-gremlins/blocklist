@@ -1,6 +1,6 @@
 import z from "zod";
 import { TaskUncheckedUpdateManyInputSchema } from "../../prisma/generated/zod";
-import { router, publicProcedure } from "../../utils/trpc";
+import { router, userProcedure } from "../../utils/trpc";
 import { updateTask } from "../../controllers/tasks";
 
 export const UpdateTask = TaskUncheckedUpdateManyInputSchema.and(
@@ -8,7 +8,7 @@ export const UpdateTask = TaskUncheckedUpdateManyInputSchema.and(
 );
 
 const tasksUpdateRouter = router({
-  task: publicProcedure
+  task: userProcedure
     .input(UpdateTask)
     .mutation(({ input }) => updateTask(input)),
 });
