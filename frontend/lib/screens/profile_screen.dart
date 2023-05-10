@@ -28,7 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final String surname = _surnameController!.text;
     print(supabase.auth.currentUser!.id);
     user = updateUser(UpdateUser(
-        userId: supabase.auth.currentUser!.id, name: name, surname: surname));
+      userId: supabase.auth.currentUser!.id,
+    ));
   }
 
   @override
