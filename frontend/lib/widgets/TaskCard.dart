@@ -40,7 +40,7 @@ class _TaskCardState extends State<TaskCard> {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(8),
           color: colourChoice(widget.task["endRow"], widget.task["startRow"],
               widget.task["endCol"], widget.task["startCol"]),
           border: Border.all(
@@ -60,6 +60,7 @@ class _TaskCardState extends State<TaskCard> {
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
+                  overflow: TextOverflow.ellipsis,
                   maxFontSize: 22,
                   maxLines: 1,
                 ),
@@ -72,6 +73,7 @@ class _TaskCardState extends State<TaskCard> {
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.normal,
                       color: Colors.black),
+                  overflow: TextOverflow.ellipsis,
                   maxFontSize: 12,
                   maxLines: 3,
                 ),
