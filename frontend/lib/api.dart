@@ -1,7 +1,11 @@
 import 'package:frontend/helpers/http_client.dart';
+
 import 'package:frontend/types/generic/json_types.dart';
+
 import 'package:frontend/types/task/add_task.dart';
+
 import 'package:frontend/types/task/delete_task.dart';
+
 import 'package:frontend/types/task/update_task.dart';
 
 Future getTaskTree(int taskId) {
@@ -39,12 +43,21 @@ Future<dynamic> updateUser(UpdateUser user) async {
 class InputUser extends JSONMutationObject {
   String userId;
 
-  InputUser({required this.userId});
+  String name;
+
+  String surname;
+
+  InputUser({required this.userId, required this.name, required this.surname});
 
   @override
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+
     data["userId"] = userId;
+
+    data["name"] = name;
+
+    data["surname"] = surname;
 
     return data;
   }
@@ -53,16 +66,26 @@ class InputUser extends JSONMutationObject {
 class UpdateUser extends JSONMutationObject {
   String userId;
 
+  String? name;
+
+  String? surname;
+
   String? email;
 
-  UpdateUser({required this.userId, this.email});
+  UpdateUser({required this.userId, this.name, this.surname, this.email});
 
   @override
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+
     data["userId"] = userId;
 
+    if (name != null) data["name"] = name;
+
+    if (surname != null) data["surname"] = surname;
+
     if (email != null) data["email"] = email;
+
     return data;
   }
 }

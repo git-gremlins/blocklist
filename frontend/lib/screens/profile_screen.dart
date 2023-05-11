@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/api.dart';
+
 import 'package:frontend/main.dart';
+
 import 'package:frontend/widgets/FutureData.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,24 +15,31 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController? _nameController;
+
   TextEditingController? _surnameController;
+
   Future<dynamic> user = getUser(userId: supabase.auth.currentUser!.id);
+
   final _formKey = GlobalKey();
 
   @override
   void dispose() {
     _nameController?.dispose();
+
     _surnameController?.dispose();
+
     super.dispose();
   }
 
   void _handleSubmit() {
     final String name = _nameController!.text;
+
     final String surname = _surnameController!.text;
+
     print(supabase.auth.currentUser!.id);
+
     user = updateUser(UpdateUser(
-      userId: supabase.auth.currentUser!.id,
-    ));
+        userId: supabase.auth.currentUser!.id, name: name, surname: surname));
   }
 
   @override
@@ -52,8 +62,10 @@ class _ProfilePageState extends State<ProfilePage> {
               future: user,
               onDataCallback: (data) {
                 _nameController = TextEditingController(text: data["name"]);
+
                 _surnameController =
                     TextEditingController(text: data["surname"]);
+
                 return <Widget>[
                   const Text(
                     "Name",
@@ -72,6 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
                       }
+
                       return null;
                     },
                   ),
@@ -93,6 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your surname';
                       }
+
                       return null;
                     },
                   ),
