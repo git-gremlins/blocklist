@@ -72,7 +72,7 @@ class _SplashPageState extends State<SplashPage> {
           email: _emailController.text, password: _passwordController.text);
       await postUser(
           //update this bit
-          InputUser(userId: temp.user!.id));
+          InputUser(userId: temp.user!.id, name: "Kamal", surname: "Sac"));
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Success!"),
         backgroundColor: Color.fromARGB(255, 69, 247, 78),
